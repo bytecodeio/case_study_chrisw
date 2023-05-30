@@ -43,7 +43,10 @@ view: x_order_items_inventory_items {
   }
   set: item_details {
     fields: [inventory_items.product_category,gross_margin_percent,order_items.total_gross_revenue]
-  }
+    }
+  # set: brand_details {
+  #   fields: [inventory_items.product_brand,gross_margin_percent,order_items.total_gross_revenue]
+  # }
 
   ##################################
   ########### Hidden ###############
