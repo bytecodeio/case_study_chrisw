@@ -14,28 +14,36 @@ view: customer_order_facts {
     }
   }
 
+  dimension: user_id {
+    hidden: yes
+    primary_key: yes
+    description: ""
+    type: number
+  }
+
   dimension: average_revenue {
+    hidden: yes
     type: number
   }
 
   dimension: average_sale_price {
+    hidden: yes
     description: ""
     value_format: "$#,##0.00"
     type: number
   }
 
   dimension: count_of_orders {
+    hidden: yes
     type: number
   }
 
   dimension: first_order_date {
     view_label: "Customers"
-    group_label: "Lifetime Order History"
   }
 
   dimension_group: since_last_order {
     view_label: "Customers"
-    group_label: "Lifetime Order History"
     type: duration
     sql_start: ${last_order_date};;
     sql_end: CURRENT_TIMESTAMP();;
@@ -44,17 +52,15 @@ view: customer_order_facts {
 
   dimension: last_order_date {
     view_label: "Customers"
-    group_label: "Lifetime Order History"
   }
 
-  dimension: is_active {
+  dimension: is_active_customer {
     view_label: "Customers"
-    group_label: "Lifetime Order History"
     type: yesno
     sql: ${days_since_last_order} <= 90 ;;
   }
 
-  dimension: is_repeat {
+  dimension: is_repeat_customer {
     view_label: "Customers"
     type: yesno
     sql: ${count_of_orders} > 1 ;;
@@ -93,8 +99,7 @@ view: customer_order_facts {
     view_label: "Customers"
     group_label: "Lifetime Order History"
     type: tier
-    tiers: [0.00,4.99,5,19.99,20,49.99,
-      50,99.99,100,499.99,500,999.99,1000]
+    tiers: [5,20,50,100,500,1000]
     sql:  ${TABLE}.total_sale_price ;;
     style: relational
   }
@@ -122,12 +127,6 @@ view: customer_order_facts {
     type: number
   }
 
-  dimension: user_id {
-    primary_key: yes
-    description: ""
-    type: number
-  }
-
   measure: average_days_since_last_order {
     view_label: "Customers"
     group_label: "Lifetime Order History"
@@ -135,12 +134,12 @@ view: customer_order_facts {
     sql: ${days_since_last_order}} ;;
   }
 
-  measure: average_revenue_per_customer{
-    view_label: "Customers"
-    group_label: "Lifetime Order History"
-    type: average
-    sql: ${total_lifetime_revenue} ;;
-  }
+  # measure: average_revenue_per_customer{
+  #   view_label: "Customers"
+  #   group_label: "Lifetime Order History"
+  #   type: average
+  #   sql: ${total_lifetime_revenue} ;;
+  # }
 
   measure: average_orders_per_customer {
     view_label: "Customers"
@@ -149,4 +148,17 @@ view: customer_order_facts {
     sql: ${total_lifetime_orders} ;;
   }
 
+  measure: count_of_repeat_customers {
+    view_label: "Customers"
+    type: count_distinct
+    sql: ${user_id} ;;
+    filters: [is_repeat_customer: "Yes"]
+  }
+
+  measure: repeat_purchase_rate {
+    view_label: "Customers"
+    type: number
+    sql: 1.0 * ${count_of_repeat_customers} / NULLIF(${x_users_order_items.total_number_of_customers},0) ;;
+    value_format_name: percent_2
+    }
 }

@@ -5,6 +5,13 @@ view: users {
   ########### Dimensions ###########
   ##################################
 
+  dimension: id {
+    group_label: "Contact Detail"
+    primary_key: yes
+    type: number
+    sql: ${TABLE}.id ;;
+  }
+
   dimension: age {
     group_label: "Demographics"
     type: number
@@ -54,12 +61,7 @@ view: users {
     type: duration
     sql_start: ${created_raw};;
     sql_end: CURRENT_TIMESTAMP();;
-    intervals: [day]
-  }
-
-  dimension: new_user {
-    type: yesno
-    sql: ${days_since_signup} < 91;;
+    intervals: [day,week,month,year]
   }
 
   dimension: email {
@@ -80,10 +82,9 @@ view: users {
     sql: ${TABLE}.gender ;;
   }
 
-  dimension: id {
-    primary_key: yes
-    type: number
-    sql: ${TABLE}.id ;;
+  dimension: is_new_user {
+    type: yesno
+    sql: ${days_since_signup} < 91;;
   }
 
   dimension: last_name {
@@ -93,18 +94,21 @@ view: users {
   }
 
   dimension: latitude {
+    hidden: yes
     group_label: "Shipping Location"
     type: number
     sql: ${TABLE}.latitude ;;
   }
 
   dimension: longitude {
+    hidden: yes
     group_label: "Shipping Location"
     type: number
     sql: ${TABLE}.longitude ;;
   }
 
   dimension: lat_lon {
+    hidden: yes
     group_label: "Shipping Location"
     type: location
     sql_latitude: ${TABLE}.latitude ;;
@@ -187,12 +191,14 @@ view: users {
   }
 
   measure: count_of_users_mtd_cm {
+    hidden: yes
     type: count_distinct
     sql: ${id} ;;
     filters: [created_month: "this month", is_before_mtd: "Yes"]
   }
 
   measure: count_of_users_mtd_pm {
+    hidden: yes
     type: count_distinct
     sql: ${id} ;;
     filters: [created_month: "last month", is_before_mtd: "Yes"]
@@ -205,6 +211,7 @@ view: users {
   }
 
   dimension: is_before_mtd {
+    hidden: yes
     type: yesno
     sql: ${created_day_of_month} <= EXTRACT(day FROM CURRENT_TIMESTAMP()) ;;
   }

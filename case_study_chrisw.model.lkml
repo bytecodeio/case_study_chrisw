@@ -14,8 +14,6 @@ include: "/views/products.view.lkml"
 include: "/views/users.view.lkml"
 include: "/views/derived/customer_order_facts.view.lkml"
 
-explore: customer_order_facts {}
-
 ##################################
 ########### Explores #############
 ##################################
