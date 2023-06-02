@@ -39,7 +39,7 @@ view: customer_order_facts {
     type: duration
     sql_start: ${last_order_date};;
     sql_end: CURRENT_TIMESTAMP();;
-    intervals: [day,week]
+    intervals: [day,week,month,year]
   }
 
   dimension: last_order_date {
@@ -126,6 +126,13 @@ view: customer_order_facts {
     primary_key: yes
     description: ""
     type: number
+  }
+
+  measure: average_days_since_last_order {
+    view_label: "Customers"
+    group_label: "Lifetime Order History"
+    type: average
+    sql: ${days_since_last_order}} ;;
   }
 
   measure: average_revenue_per_customer{
