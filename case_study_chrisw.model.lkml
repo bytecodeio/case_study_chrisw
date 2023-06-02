@@ -21,4 +21,3 @@ explore: customer_order_facts {}
 ##################################
 include: "/explores/order_items.explore.lkml"
 include: "/explores/customers.explore.lkml"
-include: "/explores/validation_order_item_status.explore.lkml"
