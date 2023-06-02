@@ -101,6 +101,15 @@ view: order_items {
   dimension: status {
     type: string
     sql: ${TABLE}.status ;;
+    order_by_field: status_sort_order
+  }
+
+  dimension: status_sort_order {
+    hidden: yes
+    type: number
+    sql: CASE WHEN ${status} = 'Cancelled' THEN 1
+              ELSE 2
+              END ;;
   }
 
   dimension: user_id {
@@ -118,11 +127,23 @@ view: order_items {
     value_format_name: usd
   }
 
+  measure: count_of_orders {
+    type: count_distinct
+    sql: ${order_id} ;;
+  }
+
   measure: cumulative_total_sales {
     type: running_total
     sql: ${total_sale_price} ;;
     value_format_name: usd
   }
+
+  measure: first_order_date {
+    hidden: yes
+    type: date
+    sql: MIN(${order_items.created_raw}) ;;
+  }
+
 
   measure: item_return_rate {
     type: number
@@ -131,15 +152,21 @@ view: order_items {
     value_format_name: percent_2
   }
 
+  measure: last_order_date {
+    hidden: yes
+    type: date
+    sql: MAX(${order_items.created_raw}) ;;
+  }
+
   measure: number_of_returned_items {
     type: count_distinct
-    sql: ${TABLE}.inventory_item_id ;;
+    sql: ${inventory_item_id} ;;
     filters: [item_is_returned: "Yes"]
   }
 
   measure:  total_gross_revenue {
     type: sum
-    description: "Total revenue from completed sales (excluding canceled and returned orders)."
+    description: "Sum of sale price for order items with a status of complete or shipped."
     sql: ${sale_price} ;;
     filters: [item_is_returned: "No", item_is_cancelled: "No"]
     value_format_name: usd
@@ -147,7 +174,7 @@ view: order_items {
 
   measure: total_number_of_items {
     type: count_distinct
-    sql: ${TABLE}.inventory_item_id ;;
+    sql: ${inventory_item_id} ;;
   }
 
   measure: total_sale_price {
@@ -170,7 +197,7 @@ view: order_items {
   measure:  total_gross_revenue_prior_30_days {
     hidden: yes
     type: sum
-    description: "Total revenue from completed sales (excluding canceled and returned orders)."
+    description: "Sum of sale price for order items with a status of complete or shipped."
     sql: ${sale_price} ;;
     filters: [item_is_returned: "No", item_is_cancelled: "No", created_date: "last 30 days"]
     value_format_name: usd
@@ -179,7 +206,7 @@ view: order_items {
   measure:  total_gross_revenue_prior_12_months {
     hidden: yes
     type: sum
-    description: "Total revenue from completed sales (excluding canceled and returned orders)."
+    description: "Sum of sale price for order items with a status of complete or shipped."
     sql: ${sale_price} ;;
     filters: [item_is_returned: "No", item_is_cancelled: "No", created_date: "last 12 months"]
     value_format_name: usd_0

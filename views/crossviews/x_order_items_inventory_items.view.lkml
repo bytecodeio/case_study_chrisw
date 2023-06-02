@@ -1,15 +1,11 @@
+include: "/views/order_items.view.lkml"
+include: "/views/inventory_items.view.lkml"
+
 view: x_order_items_inventory_items {
 
   ##################################
   ########### Dimensions ###########
   ##################################
-
-  dimension: id {
-    primary_key: yes
-    type: number
-    sql:${order_items.id} ;;
-    hidden: yes
-  }
 
   ##################################
   ########### Measures #############
@@ -22,6 +18,7 @@ view: x_order_items_inventory_items {
     filters: [order_items.status: "Complete"]
     view_label: "Order Items"
     value_format_name: usd
+    sql_distinct_key: ${order_items.id} ;;
   }
 
   measure: average_gross_margin_amount {
