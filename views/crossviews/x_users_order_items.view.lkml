@@ -62,8 +62,14 @@ view: x_users_order_items {
     value_format_name: usd
   }
 
+  measure: revenue_per_customer {
+    type: number
+    description: "Total gross revenue / total count of customers"
+    sql:  1.0 * ${order_items.total_gross_revenue} / NULLIF(${total_number_of_customers},0);;
+  }
+
   measure: total_number_of_customers_prior_30_days {
-    # hidden: yes
+    hidden: yes
     type: count_distinct
     description: "The total number of unique customers"
     sql: ${customers.id} ;;
@@ -72,7 +78,7 @@ view: x_users_order_items {
   }
 
   measure: total_number_of_customers_prior_12_months {
-    # hidden: yes
+    hidden: yes
     type: count_distinct
     description: "The total number of unique customers"
     sql: ${customers.id} ;;
