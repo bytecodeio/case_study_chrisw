@@ -54,6 +54,14 @@ view: customer_order_facts {
     view_label: "Customers"
   }
 
+  dimension_group: since_signup {
+    view_label: "Customers"
+    type: duration
+    sql_start: ${customers.created_date};;
+    sql_end: CURRENT_TIMESTAMP();;
+    intervals: [day,week,month,year]
+  }
+
   dimension: is_active_customer {
     view_label: "Customers"
     type: yesno
@@ -133,6 +141,18 @@ view: customer_order_facts {
     group_label: "Lifetime Order History"
     type: average
     sql: ${days_since_last_order}} ;;
+  }
+
+  measure: average_days_since_signup {
+    view_label: "Customers"
+    type: average
+    sql: ${days_since_signup} ;;
+  }
+
+  measure: average_months_since_signup {
+    view_label: "Customers"
+    type: average
+    sql: ${months_since_signup} ;;
   }
 
   # measure: average_revenue_per_customer{
