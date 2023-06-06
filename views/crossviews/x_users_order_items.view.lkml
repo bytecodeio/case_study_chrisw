@@ -4,13 +4,6 @@ view: x_users_order_items {
   ########### Dimensions ###########
   ##################################
 
-  dimension: id {
-    primary_key: yes
-    type: number
-    sql:${customers.id} ;;
-    hidden: yes
-  }
-
   ##################################
   ########### Measures #############
   ##################################
@@ -26,7 +19,7 @@ view: x_users_order_items {
   measure: number_of_customers_returning_items {
     type: count_distinct
     description: "The number of customers who have returned an item at some point."
-    sql: ${id} ;;
+    sql: ${customers.id} ;;
     filters: [order_items.status: "Returned"]
     view_label: "Customers"
   }
@@ -34,7 +27,7 @@ view: x_users_order_items {
   measure: total_number_of_customers {
     type: count_distinct
     description: "The total number of unique customers"
-    sql: ${id} ;;
+    sql: ${customers.id} ;;
     filters: [order_items.order_id: "> 0"]
     view_label: "Customers"
   }
@@ -70,19 +63,19 @@ view: x_users_order_items {
   }
 
   measure: total_number_of_customers_prior_30_days {
-    hidden: yes
+    # hidden: yes
     type: count_distinct
     description: "The total number of unique customers"
-    sql: ${id} ;;
+    sql: ${customers.id} ;;
     filters: [order_items.order_id: "> 0", order_items.created_date: "last 30 days"]
     view_label: "Customers"
   }
 
   measure: total_number_of_customers_prior_12_months {
-    hidden: yes
+    # hidden: yes
     type: count_distinct
     description: "The total number of unique customers"
-    sql: ${id} ;;
+    sql: ${customers.id} ;;
     filters: [order_items.order_id: "> 0", order_items.created_date: "last 12 months"]
     view_label: "Customers"
   }
