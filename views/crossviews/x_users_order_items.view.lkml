@@ -66,7 +66,14 @@ view: x_users_order_items {
     type: number
     description: "Total gross revenue / total count of customers"
     sql:  1.0 * ${order_items.total_gross_revenue} / NULLIF(${total_number_of_customers},0);;
-    view_label: "Order Items"
+    view_label: "Customers"
+  }
+
+  measure: revenue_per_user {
+    type: number
+    description: "Total gross revenue / total count of customers"
+    sql:  1.0 * ${order_items.total_gross_revenue} / NULLIF(${customers.count_of_users},0);;
+    view_label: "Customers"
   }
 
   measure: total_number_of_customers_prior_30_days {
