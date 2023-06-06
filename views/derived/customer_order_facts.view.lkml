@@ -69,7 +69,7 @@ view: customer_order_facts {
   dimension: lifetime_orders {
     view_label: "Customers"
     group_label: "Lifetime Order History"
-    group_item_label: "Order Count Range"
+    group_item_label: "Customer Lifetime Orders"
     case: {
       when: {
         sql: ${count_of_orders} = 1;;
@@ -91,13 +91,14 @@ view: customer_order_facts {
         sql: ${count_of_orders} >= 10;;
         label: "10+ Orders"
       }
-      else: "No Orders"
+      else: "0 Orders"
     }
   }
 
   dimension: total_lifetime_revenue_range {
     view_label: "Customers"
     group_label: "Lifetime Order History"
+    group_item_label: "Customer Lifetime Revenue"
     type: tier
     tiers: [5,20,50,100,500,1000]
     sql:  ${TABLE}.total_sale_price ;;

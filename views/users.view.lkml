@@ -25,6 +25,7 @@ view: users {
     tiers: [15,26,36,51,66]
     sql: ${age} ;;
     style: integer
+    drill_fields: [gender,traffic_source,country,state,city]
   }
 
   dimension: city {
