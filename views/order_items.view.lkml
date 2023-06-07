@@ -9,15 +9,15 @@ view: order_items {
     default_value: "count_of_orders"
     allowed_value: {
       label: "Count Of Orders"
-      value: "count_of_orders"
+      value: "${count_of_orders}"
     }
     allowed_value: {
       label: "Total Gross Revenue"
-      value: "total_gross_revenue"
+      value: "${total_gross_revenue}"
     }
     allowed_value: {
       label: "Total Number Of Items"
-      value: "total_number_of_items"
+      value: "${total_number_of_items}"
     }
   }
 
@@ -192,7 +192,7 @@ view: order_items {
 
   measure: dynamic_measure {
     type: sum
-    sql: ${TABLE}.% parameter measure_selector %}
+    sql: % parameter measure_selector %}
     ;;
   }
 
