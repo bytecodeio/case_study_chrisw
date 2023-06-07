@@ -1,5 +1,29 @@
 view: order_items {
   sql_table_name: `looker-partners.thelook.order_items` ;;
+  ##################################
+  ########### Parameters ###########
+  ##################################
+
+  parameter: timeframe_selector {
+    type: unquoted
+    default_value: "week"
+    allowed_value: {
+      label: "Day"
+      value: "date"
+    }
+    allowed_value: {
+      label: "Week"
+      value: "week"
+    }
+    allowed_value: {
+      label: "Month"
+      value: "month"
+    }
+    allowed_value: {
+      label: "Year"
+      value: "year"
+    }
+  }
 
   ##################################
   ########### Dimensions ###########
@@ -110,6 +134,17 @@ view: order_items {
     sql: CASE WHEN ${status} = 'Cancelled' THEN 1
               ELSE 2
               END ;;
+  }
+
+  dimension: dynamic_timeframe {
+    label_from_parameter: timeframe_selector
+    sql:
+      {% if timeframe_selector._parameter_value == "date" %} ${created_date}
+      {% elsif timeframe_selector._parameter_value == "month" %} ${created_month}
+      {% elsif timeframe_selector._parameter_value == "year" %} ${created_year}
+      {% else %} ${created_week}
+      {% endif %}
+      ;;
   }
 
   dimension: user_id {
