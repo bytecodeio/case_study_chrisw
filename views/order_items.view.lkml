@@ -191,8 +191,15 @@ view: order_items {
   }
 
   measure: dynamic_measure {
-    type: sum
-    sql: {% parameter measure_selector %}
+    type: number
+    sql:
+    {% if measure_selector._parameter_value == 'count_of_orders' %}
+      ${count_of_orders}
+    {% elsif measure_selector._parameter_value == 'total_gross_revenue' %}
+      ${total_gross_revenue}
+    {% else %}
+      ${total_number_of_items}
+    {% endif %}
     ;;
   }
 
