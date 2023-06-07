@@ -192,7 +192,7 @@ view: order_items {
 
   measure: dynamic_measure {
     type: sum
-    sql: % parameter measure_selector %}
+    sql: {% parameter measure_selector %}
     ;;
   }
 
