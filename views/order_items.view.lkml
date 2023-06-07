@@ -4,6 +4,23 @@ view: order_items {
   ########### Parameters ###########
   ##################################
 
+  parameter: measure_selector {
+    type: unquoted
+    default_value: "count_of_orders"
+    allowed_value: {
+      label: "Count Of Orders"
+      value: "count_of_orders"
+    }
+    allowed_value: {
+      label: "Total Gross Revenue"
+      value: "total_gross_revenue"
+    }
+    allowed_value: {
+      label: "Total Number Of Items"
+      value: "total_number_of_items"
+    }
+  }
+
   parameter: timeframe_selector {
     type: unquoted
     default_value: "week"
@@ -56,6 +73,17 @@ view: order_items {
       year
     ]
     sql: ${TABLE}.delivered_at ;;
+  }
+
+  dimension: dynamic_timeframe {
+    label_from_parameter: timeframe_selector
+    sql:
+      {% if timeframe_selector._parameter_value == "date" %} ${created_date}
+      {% elsif timeframe_selector._parameter_value == "month" %} ${created_month}
+      {% elsif timeframe_selector._parameter_value == "year" %} ${created_year}
+      {% else %} ${created_week}
+      {% endif %}
+      ;;
   }
 
   dimension: id {
@@ -136,17 +164,6 @@ view: order_items {
               END ;;
   }
 
-  dimension: dynamic_timeframe {
-    label_from_parameter: timeframe_selector
-    sql:
-      {% if timeframe_selector._parameter_value == "date" %} ${created_date}
-      {% elsif timeframe_selector._parameter_value == "month" %} ${created_month}
-      {% elsif timeframe_selector._parameter_value == "year" %} ${created_year}
-      {% else %} ${created_week}
-      {% endif %}
-      ;;
-  }
-
   dimension: user_id {
     type: number
     sql: ${TABLE}.user_id ;;
@@ -171,6 +188,12 @@ view: order_items {
     type: running_total
     sql: ${total_sale_price} ;;
     value_format_name: usd
+  }
+
+  measure: dynamic_measure {
+    type: sum
+    sql: ${TABLE}.{% parameter measure_selector %}
+    ;;
   }
 
   measure: first_order_date {
