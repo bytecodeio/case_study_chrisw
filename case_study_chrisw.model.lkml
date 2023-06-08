@@ -19,3 +19,10 @@ include: "/views/derived/customer_order_facts.view.lkml"
 ##################################
 include: "/explores/order_items.explore.lkml"
 include: "/explores/customers.explore.lkml"
+
+named_value_format: usd_in_millions {
+  value_format: "$0.000,,\" M\""
+}
+named_value_format: phone_number {
+  value_format: "(###) ###-####"
+}

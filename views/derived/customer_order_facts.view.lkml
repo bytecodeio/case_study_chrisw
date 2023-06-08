@@ -143,6 +143,7 @@ view: customer_order_facts {
   }
 
   measure: average_days_since_last_order {
+    description: "The average number of days since a customer's last order."
     view_label: "Customers"
     group_label: "Lifetime Order History"
     type: average
@@ -150,12 +151,14 @@ view: customer_order_facts {
   }
 
   measure: average_days_since_signup {
+    description: "The average number of days since a user signed up."
     view_label: "Customers"
     type: average
     sql: ${customers.days_since_signup} ;;
   }
 
   measure: average_months_since_signup {
+    description: "The average number of months since a user signed up."
     view_label: "Customers"
     type: average
     sql: ${customers.months_since_signup} ;;
@@ -169,6 +172,7 @@ view: customer_order_facts {
   # }
 
   measure: average_orders_per_customer {
+    description: "The average number of customers total lifetime orders."
     view_label: "Customers"
     group_label: "Lifetime Order History"
     type: average
@@ -176,6 +180,7 @@ view: customer_order_facts {
   }
 
   measure: count_of_repeat_customers {
+    description: "The number of customers with more than one order in their lifetimes."
     view_label: "Customers"
     type: count_distinct
     sql: ${user_id} ;;
@@ -183,6 +188,7 @@ view: customer_order_facts {
   }
 
   measure: repeat_purchase_rate {
+    description: "The number of customers with more than one order in their lifetimes / the total number of customers."
     view_label: "Customers"
     type: number
     sql: 1.0 * ${count_of_repeat_customers} / NULLIF(${x_users_order_items.total_number_of_customers},0) ;;
