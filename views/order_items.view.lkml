@@ -6,7 +6,7 @@ view: order_items {
 
   parameter: measure_selector {
     type: unquoted
-    default_value: "count_of_orders"
+    # default_value: "count_of_orders"
     allowed_value: {
       label: "Count Of Orders"
       value: "count_of_orders"
@@ -23,7 +23,7 @@ view: order_items {
 
   parameter: timeframe_selector {
     type: unquoted
-    default_value: "week"
+    # default_value: "week"
     allowed_value: {
       label: "Day"
       value: "date"
@@ -192,6 +192,8 @@ view: order_items {
 
   measure: dynamic_measure {
     type: number
+    value_format: "#,##0"
+    label_from_parameter: measure_selector
     sql:
     {% if measure_selector._parameter_value == 'count_of_orders' %}
       ${count_of_orders}
@@ -199,6 +201,13 @@ view: order_items {
       ${total_gross_revenue}
     {% else %}
       ${total_number_of_items}
+    {% endif %}
+    ;;
+    html:
+    {% if measure_selector._parameter_value == 'total_gross_revenue' %}
+    ${{ rendered_value }}
+    {% else %}
+    {{ rendered_value }}
     {% endif %}
     ;;
   }

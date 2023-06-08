@@ -59,6 +59,7 @@ view: users {
   }
 
   dimension_group: since_signup {
+    description: "Duration since a user's website signup."
     type: duration
     sql_start: ${created_raw};;
     sql_end: CURRENT_TIMESTAMP();;
@@ -84,6 +85,7 @@ view: users {
   }
 
   dimension: is_new_user {
+    description: "Value is Yes when a user has signed up in the last 90 days and No when a user has signed up more than 90 days ago."
     type: yesno
     sql: ${days_since_signup} < 91;;
   }

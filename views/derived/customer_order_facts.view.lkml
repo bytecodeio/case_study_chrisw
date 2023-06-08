@@ -63,18 +63,21 @@ view: customer_order_facts {
   # }
 
   dimension: is_active_customer {
+    description: "Value is Yes when a customer last ordered in the past 90 days and No when a customer last ordered more than 90 days ago. "
     view_label: "Customers"
     type: yesno
-    sql: ${days_since_last_order} <= 90 ;;
+    sql: (${days_since_last_order} <= 90) ;;
   }
 
   dimension: is_repeat_customer {
+    description: "Value is Yes when a user has ordered more than once during their lifetime and No when a user has ordered only once or has not ordered."
     view_label: "Customers"
     type: yesno
     sql: ${count_of_orders} > 1 ;;
   }
 
   dimension: lifetime_orders {
+    description: "The number of orders for a customer over their lifetime, groupped into ranges."
     view_label: "Customers"
     group_label: "Lifetime Order History"
     group_item_label: "Customer Lifetime Orders"
@@ -104,6 +107,7 @@ view: customer_order_facts {
   }
 
   dimension: total_lifetime_revenue_range {
+    description: "The sum total revenue for a customer over their lifetime, groupped into ranges."
     view_label: "Customers"
     group_label: "Lifetime Order History"
     group_item_label: "Customer Lifetime Revenue"
@@ -114,6 +118,7 @@ view: customer_order_facts {
   }
 
   dimension: total_lifetime_revenue{
+    description: "The sum total revenue for a customer over their lifetime."
     view_label: "Customers"
     group_label: "Lifetime Order History"
     value_format: "$#,##0.00"
@@ -122,6 +127,7 @@ view: customer_order_facts {
   }
 
   dimension: total_lifetime_orders {
+    description: "The number of orders for a customer over their lifetime"
     view_label: "Customers"
     group_label: "Lifetime Order History"
     group_item_label: "Order Count"
@@ -130,9 +136,9 @@ view: customer_order_facts {
   }
 
   dimension: total_number_of_items {
+    description: "The number of items for a customer over their lifetime"
     view_label: "Customers"
     group_label: "Lifetime Order History"
-    description: ""
     type: number
   }
 
