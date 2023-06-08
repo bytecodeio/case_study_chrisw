@@ -243,7 +243,7 @@ view: order_items {
     description: "Sum of sale price for order items with a status of complete or shipped."
     sql: ${sale_price} ;;
     filters: [item_is_returned: "No", item_is_cancelled: "No"]
-    value_format_name: usd_in_millions
+    value_format_name: usd
     drill_fields: [sale_price]
   }
 
