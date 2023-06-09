@@ -169,7 +169,16 @@ view: order_items {
     sql: ${sale_price} ;;
     filters: [item_is_returned: "No", item_is_cancelled: "No"]
     value_format_name: usd
-    drill_fields: [sale_price]
+    drill_fields: [product_details*]
+  }
+
+  set: product_details {
+    fields:
+    [
+      inventory_items.product_brand,
+      customers.total_number_of_customers,
+      customer_order_facts.repeat_purchase_rate
+    ]
   }
 
   measure: total_number_of_items {
