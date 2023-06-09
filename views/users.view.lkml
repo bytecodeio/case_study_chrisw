@@ -1,5 +1,5 @@
 view: users {
-  drill_fields: [user_info*]
+  drill_fields: [user_detail*]
   sql_table_name: `looker-partners.thelook.users` ;;
 
   ##################################
@@ -141,7 +141,7 @@ view: users {
   dimension: traffic_source {
     type: string
     sql: ${TABLE}.traffic_source ;;
-    drill_fields: [age_group,gender]
+    # drill_fields: [age_group,gender]
   }
 
 
@@ -220,9 +220,9 @@ view: users {
     sql: ${created_day_of_month} <= EXTRACT(day FROM CURRENT_TIMESTAMP()) ;;
   }
 
-  set: user_info {
+  set: user_detail {
     fields: [
-      age, age_group, created_year, country, state, city
+      id, created_year, country, state, city, age
     ]
   }
 

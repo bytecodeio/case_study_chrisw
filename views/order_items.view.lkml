@@ -1,4 +1,5 @@
 view: order_items {
+  drill_fields: [product_details*]
   sql_table_name: `looker-partners.thelook.order_items` ;;
   ##################################
   ########### Dimensions ###########
@@ -169,16 +170,6 @@ view: order_items {
     sql: ${sale_price} ;;
     filters: [item_is_returned: "No", item_is_cancelled: "No"]
     value_format_name: usd
-    drill_fields: [product_details*]
-  }
-
-  set: product_details {
-    fields:
-    [
-      inventory_items.product_brand,
-      customers.total_number_of_customers,
-      customer_order_facts.repeat_purchase_rate
-    ]
   }
 
   measure: total_number_of_items {
@@ -260,5 +251,16 @@ view: order_items {
     filters: [created_date: "12 months", item_is_returned: "No", item_is_cancelled: "No"]
   }
 
+  set: product_details {
+    fields:
+    [
+      inventory_items.product_id,
+      inventory_items.product_name,
+      inventory_items.product_brand,
+      inventory_items.product_category,
+      inventory_items.product_department,
+      inventory_items.product_sku
+    ]
+  }
 
 }
