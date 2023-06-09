@@ -14,44 +14,6 @@ view: customer_order_facts {
     }
   }
 
-  parameter: select_a_dimension {
-    type: unquoted
-    # default_value: "count_of_orders"
-    allowed_value: {
-      label: "Active Customers"
-      value: "active_customers"
-    }
-    allowed_value: {
-      label: "Repeat Customers"
-      value: "repeat_customers"
-    }
-    allowed_value: {
-      label: "All Customers"
-      value: "all_customers"
-    }
-  }
-
-  parameter: select_a_measure {
-    type: unquoted
-    # default_value: "count_of_orders"
-    allowed_value: {
-      label: "Total Number Of Customers"
-      value: "total_number_of_customers"
-    }
-    allowed_value: {
-      label: "Total Gross Revenue"
-      value: "total_gross_revenue"
-    }
-    # allowed_value: {
-    #   label: "Count Of Orders"
-    #   value: "count_of_orders"
-    # }
-    # allowed_value: {
-    #   label: "Total Number Of Items"
-    #   value: "total_number_of_items"
-    # }
-  }
-
   dimension: user_id {
     hidden: yes
     primary_key: yes
@@ -151,20 +113,6 @@ view: customer_order_facts {
     }
   }
 
-  dimension: selected_dimension {
-    type: string
-    label_from_parameter: select_a_dimension
-    sql:
-    {% if select_a_dimension._parameter_value == 'repeat_customers' %}
-    ${is_repeat_customer}
-    {% elsif select_a_dimension._parameter_value == 'active_customers' %}
-    ${is_active_customer}
-    {% else %}
-    ${is_all_customers}
-    {% endif %}
-    ;;
-    }
-
   dimension: total_lifetime_revenue_range {
     description: "The sum total revenue for a customer over their lifetime, groupped into ranges."
     view_label: "Customers"
@@ -253,27 +201,4 @@ view: customer_order_facts {
     sql: 1.0 * ${count_of_repeat_customers} / NULLIF(${x_users_order_items.total_number_of_customers},0) ;;
     value_format_name: percent_2
     }
-
-  measure: selected_measure {
-    type: number
-    label_from_parameter: select_a_measure
-    sql:
-    {% if select_a_measure._parameter_value == 'total_number_of_customers' %}
-      ${x_users_order_items.total_number_of_customers}
-    {% elsif select_a_measure._parameter_value == 'total_gross_revenue' %}
-      ${order_items.total_gross_revenue}
-    {% elsif select_a_measure._parameter_value == 'count_of_orders' %}
-      ${order_items.count_of_orders}
-    {% else %}
-      ${order_items.total_number_of_items}
-    {% endif %}
-    ;;
-    # html:
-    # {% if select_a_measure._parameter_value == 'total_gross_revenue' %}
-    # ${{ rendered_value }}
-    # {% else %}
-    # {{ rendered_value }}
-    # {% endif %}
-    # ;;
-  }
 }

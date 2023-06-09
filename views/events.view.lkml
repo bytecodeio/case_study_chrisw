@@ -65,6 +65,13 @@ view: events {
     sql: ${TABLE}.sequence_number ;;
   }
 
+  dimension_group: since_signup_and_site_visit {
+    type: duration
+    sql_start: ${customers.created_raw};;
+    sql_end: ${created_raw};;
+    intervals: [day,week,month,year]
+  }
+
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.

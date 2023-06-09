@@ -4,9 +4,15 @@ include: "/views/crossviews/x_users_order_items.view.lkml"
 include: "/views/crossviews/x_order_items_inventory_items.view.lkml"
 include: "/views/order_items.view.lkml"
 include: "/views/inventory_items.view.lkml"
+include: "/views/dashboard_selectors.view.lkml"
 include: "/views/derived/customer_order_facts.view.lkml"
 explore: customers {
   from: users
+  join: dashboard_selectors {
+    type: left_outer
+    relationship: one_to_one
+    sql:  ;;
+  }
   join: order_items {
     type: left_outer
     relationship: one_to_many

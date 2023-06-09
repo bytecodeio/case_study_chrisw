@@ -1,48 +1,6 @@
 view: order_items {
   sql_table_name: `looker-partners.thelook.order_items` ;;
   ##################################
-  ########### Parameters ###########
-  ##################################
-
-  parameter: measure_selector {
-    type: unquoted
-    # default_value: "count_of_orders"
-    allowed_value: {
-      label: "Count Of Orders"
-      value: "count_of_orders"
-    }
-    allowed_value: {
-      label: "Total Gross Revenue"
-      value: "total_gross_revenue"
-    }
-    allowed_value: {
-      label: "Total Number Of Items"
-      value: "total_number_of_items"
-    }
-  }
-
-  parameter: timeframe_selector {
-    type: unquoted
-    # default_value: "week"
-    allowed_value: {
-      label: "Day"
-      value: "date"
-    }
-    allowed_value: {
-      label: "Week"
-      value: "week"
-    }
-    allowed_value: {
-      label: "Month"
-      value: "month"
-    }
-    allowed_value: {
-      label: "Year"
-      value: "year"
-    }
-  }
-
-  ##################################
   ########### Dimensions ###########
   ##################################
 
@@ -73,17 +31,6 @@ view: order_items {
       year
     ]
     sql: ${TABLE}.delivered_at ;;
-  }
-
-  dimension: dynamic_timeframe {
-    label_from_parameter: timeframe_selector
-    sql:
-      {% if timeframe_selector._parameter_value == "date" %} ${created_date}
-      {% elsif timeframe_selector._parameter_value == "month" %} ${created_month}
-      {% elsif timeframe_selector._parameter_value == "year" %} ${created_year}
-      {% else %} ${created_week}
-      {% endif %}
-      ;;
   }
 
   dimension: id {
@@ -190,28 +137,6 @@ view: order_items {
     value_format_name: usd
   }
 
-  measure: dynamic_measure {
-    type: number
-    value_format: "#,##0"
-    label_from_parameter: measure_selector
-    sql:
-    {% if measure_selector._parameter_value == 'count_of_orders' %}
-      ${count_of_orders}
-    {% elsif measure_selector._parameter_value == 'total_gross_revenue' %}
-      ${total_gross_revenue}
-    {% else %}
-      ${total_number_of_items}
-    {% endif %}
-    ;;
-    html:
-    {% if measure_selector._parameter_value == 'total_gross_revenue' %}
-    ${{ rendered_value }}
-    {% else %}
-    {{ rendered_value }}
-    {% endif %}
-    ;;
-  }
-
   measure: first_order_date {
     hidden: yes
     type: date
@@ -238,7 +163,7 @@ view: order_items {
     filters: [item_is_returned: "Yes"]
   }
 
-  measure:  total_gross_revenue {
+  measure: total_gross_revenue {
     type: sum
     description: "Sum of sale price for order items with a status of complete or shipped."
     sql: ${sale_price} ;;
