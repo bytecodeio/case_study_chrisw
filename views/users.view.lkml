@@ -1,4 +1,5 @@
 view: users {
+  drill_fields: [user_info*]
   sql_table_name: `looker-partners.thelook.users` ;;
 
   ##################################
@@ -217,6 +218,12 @@ view: users {
     hidden: yes
     type: yesno
     sql: ${created_day_of_month} <= EXTRACT(day FROM CURRENT_TIMESTAMP()) ;;
+  }
+
+  set: user_info {
+    fields: [
+      age, age_group, created_year, country, state, city
+    ]
   }
 
 }
