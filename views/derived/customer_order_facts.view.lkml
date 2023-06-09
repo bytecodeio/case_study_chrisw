@@ -54,14 +54,6 @@ view: customer_order_facts {
     view_label: "Customers"
   }
 
-  # dimension_group: since_signup {
-  #   view_label: "Customers"
-  #   type: duration
-  #   sql_start: ${customers.created_date};;
-  #   sql_end: CURRENT_TIMESTAMP();;
-  #   intervals: [day,week,month,year]
-  # }
-
   dimension: is_active_customer {
     description: "Value is Yes when a customer last ordered in the past 90 days and No when a customer last ordered more than 90 days ago. "
     view_label: "Customers"
