@@ -34,7 +34,7 @@ view: customer_order_facts {
   }
 
   dimension: count_of_orders {
-    hidden: yes
+    # hidden: yes
     type: number
   }
 
@@ -104,7 +104,6 @@ view: customer_order_facts {
       else: "0 Orders"
     }
   }
-
   dimension: total_lifetime_revenue_range {
     description: "The sum total revenue for a customer over their lifetime, groupped into ranges."
     view_label: "Customers"

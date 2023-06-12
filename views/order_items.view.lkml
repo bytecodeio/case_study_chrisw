@@ -158,6 +158,11 @@ view: order_items {
     sql: MAX(${order_items.created_raw}) ;;
   }
 
+  measure: minimum_order_date {
+    type: date
+    sql: MIN(${order_items.created_raw}) ;;
+  }
+
   measure: number_of_returned_items {
     type: count_distinct
     sql: ${inventory_item_id} ;;

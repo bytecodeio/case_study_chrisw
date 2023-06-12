@@ -70,7 +70,14 @@ view: users {
   dimension: email {
     group_label: "Contact Detail"
     type: string
-    sql: ${TABLE}.email ;;
+    sql:
+
+  {% if _user_attributes['chrisw_can_see_email'] == 'yes' %}
+    ${TABLE}.email
+  {% else %}
+    MD5(${TABLE}.email)
+  {% endif %}
+  ;;
   }
 
   dimension: first_name {

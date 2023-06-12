@@ -6,6 +6,7 @@ include: "/views/order_items.view.lkml"
 include: "/views/inventory_items.view.lkml"
 include: "/views/dashboard_selectors.view.lkml"
 include: "/views/derived/customer_order_facts.view.lkml"
+include: "/views/derived/customer_order_sequence.view.lkml"
 explore: customers {
   from: users
   join: dashboard_selectors {
@@ -42,5 +43,10 @@ explore: customers {
     type: left_outer
     relationship:one_to_one
     sql_on: ${customers.id} = ${customer_order_facts.user_id} ;;
+  }
+  join: customer_order_sequence {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${order_items.order_id} = ${customer_order_sequence.order_id} ;;
   }
 }
