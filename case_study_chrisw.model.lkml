@@ -13,6 +13,7 @@ include: "/views/order_items.view.lkml"
 include: "/views/products.view.lkml"
 include: "/views/users.view.lkml"
 include: "/views/derived/customer_order_facts.view.lkml"
+include: "/views/derived/order_sequence.view.lkml"
 include: "/views/derived/customer_order_sequence.view.lkml"
 
 ##################################
@@ -27,6 +28,3 @@ named_value_format: usd_in_millions {
 named_value_format: phone_number {
   value_format: "(###) ###-####"
 }
-
-
-explore: customer_order_sequence {}
