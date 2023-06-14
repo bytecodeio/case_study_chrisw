@@ -69,6 +69,7 @@ view: x_users_order_items {
     description: "Total gross revenue / total count of customers"
     sql:  1.0 * ${order_items.total_gross_revenue} / NULLIF(${total_number_of_customers},0);;
     view_label: "Customers"
+    value_format_name: usd_0
   }
 
   measure: revenue_per_user {
