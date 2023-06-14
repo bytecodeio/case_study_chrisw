@@ -12,15 +12,19 @@ include: "/views/inventory_items.view.lkml"
 include: "/views/order_items.view.lkml"
 include: "/views/products.view.lkml"
 include: "/views/users.view.lkml"
+include: "/views/crossviews/x_users_customer_order_sequence.view.lkml"
 include: "/views/derived/customer_order_facts.view.lkml"
 include: "/views/derived/order_sequence.view.lkml"
 include: "/views/derived/customer_order_sequence.view.lkml"
+include: "/views/derived/order_facts.view.lkml"
+
 
 ##################################
 ########### Explores #############
 ##################################
-include: "/explores/order_items.explore.lkml"
 include: "/explores/customers.explore.lkml"
+include: "/explores/order_items.explore.lkml"
+
 
 named_value_format: usd_in_millions {
   value_format: "$0.000,,\" M\""

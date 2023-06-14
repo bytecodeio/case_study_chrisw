@@ -34,7 +34,7 @@ view: customer_order_facts {
   }
 
   dimension: count_of_orders {
-    # hidden: yes
+    hidden: yes
     type: number
   }
 

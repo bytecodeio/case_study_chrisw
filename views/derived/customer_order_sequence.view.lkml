@@ -5,21 +5,25 @@ view: customer_order_sequence {
   derived_table: {
     explore_source: customers {
       column: id {}
-      column: days_since_previous_order { field: order_sequence.days_since_previous_order }
+      column: average_days_between_orders {field: order_sequence.average_days_between_orders}
+      column: total_60_day_repurchased_orders {field: order_sequence.total_60_day_repurchased_orders}
     }
   }
   dimension: id {
+    hidden: yes
     primary_key: yes
     description: ""
     type: number
   }
-  dimension: days_since_previous_order {
-    description: ""
-    value_format: "0"
+
+  dimension: average_days_between_orders {
+    description: "Average number of days between a given customer's orders."
+    view_label: "Customers"
+    group_label: "Lifetime Order History"
     type: number
   }
-  measure: average_days_between_orders {
-    type: average
-    sql: ${days_since_previous_order} ;;
-  }
+  dimension: total_60_day_repurchased_orders {
+    hidden: yes
+    type:number}
+
 }

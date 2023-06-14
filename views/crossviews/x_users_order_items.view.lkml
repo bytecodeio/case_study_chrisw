@@ -20,6 +20,7 @@ view: x_users_order_items {
     type: count_distinct
     description: "The number of customers who have returned an item at some point."
     sql: ${customers.id} ;;
+    sql_distinct_key: ${customers.id} ;;
     filters: [order_items.status: "Returned"]
     view_label: "Customers"
   }
@@ -28,6 +29,7 @@ view: x_users_order_items {
     type: count_distinct
     description: "The total number of unique customers"
     sql: ${customers.id} ;;
+    sql_distinct_key: ${customers.id} ;;
     filters: [order_items.order_id: "> 0"]
     view_label: "Customers"
   }
@@ -81,6 +83,7 @@ view: x_users_order_items {
     type: count_distinct
     description: "The total number of unique customers"
     sql: ${customers.id} ;;
+    sql_distinct_key: ${customers.id} ;;
     filters: [order_items.order_id: "> 0", order_items.created_date: "last 30 days"]
     view_label: "Customers"
   }
@@ -90,6 +93,7 @@ view: x_users_order_items {
     type: count_distinct
     description: "The total number of unique customers"
     sql: ${customers.id} ;;
+    sql_distinct_key: ${customers.id} ;;
     filters: [order_items.order_id: "> 0", order_items.created_date: "last 12 months"]
     view_label: "Customers"
   }

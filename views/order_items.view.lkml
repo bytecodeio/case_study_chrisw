@@ -56,6 +56,7 @@ view: order_items {
   }
 
   dimension: order_id {
+    view_label: "Order"
     type: number
     sql: ${TABLE}.order_id ;;
   }
@@ -128,6 +129,7 @@ view: order_items {
   }
 
   measure: count_of_orders {
+    view_label: "Order"
     type: count_distinct
     sql: ${order_id} ;;
   }
@@ -178,6 +180,7 @@ view: order_items {
   }
 
   measure: total_number_of_items {
+    view_label: "Order"
     type: count_distinct
     sql: ${inventory_item_id} ;;
   }

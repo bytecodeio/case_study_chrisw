@@ -3,14 +3,6 @@ include: "/views/inventory_items.view.lkml"
 
 view: x_order_items_inventory_items {
 
-  ##################################
-  ########### Dimensions ###########
-  ##################################
-
-  ##################################
-  ########### Measures #############
-  ##################################
-
   measure: total_gross_margin_amount {
     type: sum
     description: "Total revenue from completed sales less the cost of items sold."
@@ -44,10 +36,6 @@ view: x_order_items_inventory_items {
   # set: brand_details {
   #   fields: [inventory_items.product_brand,gross_margin_percent,order_items.total_gross_revenue]
   # }
-
-  ##################################
-  ########### Hidden ###############
-  ##################################
 
   measure: total_gross_margin_amount_prior_30_days {
     hidden: yes
