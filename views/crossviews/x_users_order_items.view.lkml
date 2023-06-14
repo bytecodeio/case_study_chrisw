@@ -34,6 +34,15 @@ view: x_users_order_items {
     view_label: "Customers"
   }
 
+  measure: count_of_customers_completed_and_shipped {
+    type: count_distinct
+    description: "The total number of unique customers"
+    sql: ${customers.id} ;;
+    sql_distinct_key: ${customers.id} ;;
+    filters: [order_items.order_id: "> 0", order_items.status: "Complete,Shipped"]
+    view_label: "Customers"
+  }
+
   measure: percent_of_customers_with_returns {
     type: number
     description: "The percentage of customers who have returned an item at some point."
@@ -68,6 +77,14 @@ view: x_users_order_items {
     type: number
     description: "Total gross revenue / total count of customers"
     sql:  1.0 * ${order_items.total_gross_revenue} / NULLIF(${total_number_of_customers},0);;
+    view_label: "Customers"
+    value_format_name: usd_0
+  }
+
+  measure: revenue_per_customer_completed_and_shipped {
+    type: number
+    description: "Total gross revenue / count_of_customers_completed_and_shipped"
+    sql:  1.0 * ${order_items.total_gross_revenue} / NULLIF(${count_of_customers_completed_and_shipped},0);;
     view_label: "Customers"
     value_format_name: usd_0
   }
