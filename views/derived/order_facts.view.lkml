@@ -1,9 +1,10 @@
 view: order_facts {
-  fields_hidden_by_default: yes
+  # fields_hidden_by_default: yes
   derived_table: {
     explore_source: order_items {
       column: order_id {}
       column: created_raw {}
+      column: count_of_items {}
     }
   }
   dimension: order_id {
@@ -12,6 +13,10 @@ view: order_facts {
     type: number
   }
   dimension: created_raw {
+  }
+
+  dimension: count_of_items {
+    view_label: "Order"
   }
 
   measure: min_created_date {

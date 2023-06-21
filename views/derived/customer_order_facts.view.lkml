@@ -174,6 +174,7 @@ view: customer_order_facts {
     view_label: "Customers"
     group_label: "Lifetime Order History"
     type: average
+    value_format_name: decimal_2
     sql: ${total_lifetime_orders} ;;
   }
 

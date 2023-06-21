@@ -1,19 +1,24 @@
+include: "/views/pop.view.lkml"
 view: order_items {
   drill_fields: [product_details*]
   sql_table_name: `looker-partners.thelook.order_items` ;;
+  # extends: [pop]
   ##################################
   ########### Dimensions ###########
   ##################################
 
   dimension_group: created {
     type: time
+    convert_tz: no
     timeframes: [
       raw,
       time,
       date,
       day_of_year,
+      day_of_week,
       week,
       month,
+      month_num,
       quarter,
       year
     ]
@@ -85,6 +90,13 @@ view: order_items {
     sql: ${TABLE}.sale_price ;;
   }
 
+  dimension: sale_price_range {
+    type: tier
+    tiers: [20,50,100,500,1000]
+    style: integer
+    sql: ${sale_price} ;;
+  }
+
   dimension_group: shipped {
     type: time
     timeframes: [
@@ -143,7 +155,7 @@ view: order_items {
   measure: first_order_date {
     hidden: yes
     type: date
-    sql: MIN(${order_items.created_raw}) ;;
+    sql: MIN(${order_items.created_date}) ;;
   }
 
 
@@ -200,6 +212,11 @@ view: order_items {
     type: number
     sql: 1.0 * ${total_revenue_prior_12_months} / NULLIF(${total_count_days_prior_12_months},0) ;;
     value_format_name: usd_0
+  }
+
+  measure: count_of_items {
+    type: count_distinct
+    sql: ${id} ;;
   }
 
   measure:  total_gross_revenue_prior_30_days {

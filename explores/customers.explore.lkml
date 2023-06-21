@@ -10,6 +10,8 @@ include: "/views/derived/customer_order_facts.view.lkml"
 include: "/views/derived/order_sequence.view.lkml"
 include: "/views/derived/customer_order_sequence.view.lkml"
 include: "/views/derived/order_facts.view.lkml"
+include: "/views/pop2.view.lkml"
+include: "/views/crossviews/x_order_items_pop2.view.lkml"
 explore: customers {
   from: users
   join: dashboard_selectors {
@@ -33,12 +35,10 @@ explore: customers {
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
   }
   join: x_users_order_items {
-    type: left_outer
     relationship: one_to_many
     sql:  ;;
   }
   join: x_order_items_inventory_items {
-    type: left_outer
     relationship: one_to_one
     sql:  ;;
   }
@@ -63,7 +63,16 @@ explore: customers {
     sql_on: ${customers.id} = ${customer_order_sequence.id};;
   }
   join: x_users_customer_order_sequence {
-    type: left_outer
+    relationship: one_to_one
+    sql:  ;;
+  }
+  join: pop2 {
+    type: full_outer
+    relationship: many_to_one
+    # use liquid to if statement for sql_on
+    sql_on: ${customers.created_date} = DATE(${pop2.date_array_date}) ;;
+  }
+  join: x_order_items_pop2 {
     relationship: one_to_one
     sql:  ;;
   }

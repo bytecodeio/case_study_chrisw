@@ -39,6 +39,8 @@ view: events {
       date,
       week,
       month,
+      month_num,
+      month_name,
       quarter,
       year
     ]
@@ -115,5 +117,10 @@ view: events {
   measure: count {
     type: count
     drill_fields: [id, users.last_name, users.id, users.first_name]
+  }
+
+  measure: website_visits {
+    type: count_distinct
+    sql: ${session_id} ;;
   }
 }

@@ -4,6 +4,16 @@ view: x_users_customer_order_sequence {
     primary_key: yes
     sql: ${customers.id} ;;
   }
+
+  dimension_group: between_signup_and_first_order {
+    view_label: "Customers"
+    type: duration
+    sql_start: ${customers.created_date};;
+    sql_end: ${customer_order_facts.first_order_date};;
+    intervals: [day,week,month,year]
+    convert_tz: no
+  }
+
   measure: repeat_60_day_purchase_count {
     view_label: "Customers"
     description: "Count of customers who have repurchased within 60 days at least one in their lifetime."

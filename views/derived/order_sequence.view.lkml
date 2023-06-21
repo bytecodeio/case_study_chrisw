@@ -65,6 +65,7 @@ view: order_sequence {
     sql_start: ${order_date_lag} ;;
     sql_end: ${minimum_order_date} ;;
     intervals: [day,week,month,year]
+    convert_tz: no
   }
 
   measure: average_days_between_orders {

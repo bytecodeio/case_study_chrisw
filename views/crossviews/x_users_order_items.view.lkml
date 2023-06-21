@@ -51,6 +51,14 @@ view: x_users_order_items {
     value_format_name: percent_2
   }
 
+  measure: user_signup_conversion_rate {
+    type: number
+    description: "The percentage of users that become customers."
+    sql: 1.0 * ${total_number_of_customers} / NULLIF(${customers.count_of_users},0);;
+    view_label: "Customers"
+    value_format_name: percent_2
+  }
+
   ##################################
   ########### Hidden ###############
   ##################################
