@@ -20,6 +20,7 @@ view: x_order_items_inventory_items {
     filters: [order_items.status: "Complete"]
     view_label: "Order Items"
     value_format_name: usd
+    sql_distinct_key: ${order_items.id} ;;
   }
 
   measure: gross_margin_percent {
@@ -44,6 +45,7 @@ view: x_order_items_inventory_items {
     filters: [order_items.status: "Complete", order_items.created_date: "last 30 days"]
     view_label: "Order Items"
     value_format_name: usd
+    sql_distinct_key: ${order_items.id} ;;
   }
 
   measure: total_gross_margin_amount_prior_12_months {
@@ -53,6 +55,7 @@ view: x_order_items_inventory_items {
     filters: [order_items.status: "Complete", order_items.created_date: "last 12 months"]
     view_label: "Order Items"
     value_format_name: usd
+    sql_distinct_key: ${order_items.id} ;;
   }
 
   measure: gross_margin_percent_prior_30_days {

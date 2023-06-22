@@ -191,6 +191,14 @@ view: order_items {
     value_format_name: usd
   }
 
+  measure: average_gross_revenue {
+    type: average
+    description: "Sum of sale price for order items with a status of complete or shipped."
+    sql: ${sale_price} ;;
+    filters: [item_is_returned: "No", item_is_cancelled: "No"]
+    value_format_name: usd
+  }
+
   measure: total_number_of_items {
     view_label: "Order"
     type: count_distinct
