@@ -60,6 +60,10 @@ view: dashboard_selectors {
       value: "count_of_orders"
     }
     allowed_value: {
+      label: "Count Of Items"
+      value: "count_of_items"
+    }
+    allowed_value: {
       label: "Total Gross Revenue"
       value: "total_gross_revenue"
     }
@@ -80,6 +84,8 @@ view: dashboard_selectors {
       ${x_users_order_items.total_number_of_customers}
     {% elsif select_a_measure_primary._parameter_value == 'count_of_orders' %}
       ${order_items.count_of_orders}
+    {% elsif select_a_measure_primary._parameter_value == 'count_of_items' %}
+      ${order_items.count_of_items}
     {% elsif select_a_measure_primary._parameter_value == 'total_gross_revenue' %}
       ${order_items.total_gross_revenue}
     {% else %}
@@ -88,7 +94,11 @@ view: dashboard_selectors {
     ;;
     html:
     {% if select_a_measure_primary._parameter_value == "total_gross_revenue" %}
-    ${{ rendered_value }}
+      ${{ rendered_value }}
+    {% elsif select_a_measure_primary._parameter_value == "total_gross_margin_amount" %}
+      ${{ rendered_value }}
+    {% else %}
+      {{ rendered_value }}
     {% endif %}
     ;;
     }

@@ -32,6 +32,7 @@ view: x_users_order_items {
     sql_distinct_key: ${customers.id} ;;
     filters: [order_items.order_id: "> 0"]
     view_label: "Customers"
+    value_format_name: decimal_0
   }
 
   measure: count_of_customers_completed_and_shipped {
