@@ -184,8 +184,13 @@ view: users {
   }
 
   measure: count_of_users {
+    label: "Users"
     type: count_distinct
     sql: ${id} ;;
+    link: {
+      label: "New User Signup Dashboard"
+      url: "https://looker.bytecode.io/dashboards/PL4tqFSf5ini9lBvS835t8"
+    }
   }
 
   ##################################

@@ -12,6 +12,7 @@ include: "/views/derived/customer_order_sequence.view.lkml"
 include: "/views/derived/order_facts.view.lkml"
 include: "/views/pop2.view.lkml"
 include: "/views/crossviews/x_order_items_pop2.view.lkml"
+include: "/views/crossviews/x_users_events.view.lkml"
 explore: customers {
   from: users
   join: dashboard_selectors {
@@ -74,6 +75,11 @@ explore: customers {
   }
   join: x_order_items_pop2 {
     relationship: one_to_one
+    sql:  ;;
+  }
+
+  join: x_users_events {
+    relationship: one_to_many
     sql:  ;;
   }
 }

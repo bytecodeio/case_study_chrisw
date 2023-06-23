@@ -158,6 +158,21 @@ view: order_items {
     sql: MIN(${order_items.created_date}) ;;
   }
 
+  # dimension_group: between_signup_and_first_order {
+  #   type: duration
+  #   sql_start: ${customers.created_date} ;;
+  #   sql_end: ${first_order_date} ;;
+  #   intervals: [day]
+  # }
+
+  # measure: average_days_between_signup_and_first_order {
+  #   view_label: "Customer"
+  #   description: "The average number of days between a customer's orders."
+  #   type: average_distinct
+  #   sql: ${days_between_signup_and_first_order} ;;
+  #   # sql_distinct_key: ${order_id} ;;
+  # }
+
 
   measure: item_return_rate {
     type: number

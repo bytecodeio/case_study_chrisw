@@ -46,7 +46,7 @@ view: inventory_items {
       icon_url: "http://facebook.com/favicon.ico"
     }
     link: {
-      label: "Compare Brands"
+      label: "Brand & Product Comparison Dashboard"
       url: "https://looker.bytecode.io/dashboards/bjGrNp9Wt53zCQbXRILK8D?Select+Brands+To+Compare={{ value }}&&Select+A+Product+Category=&Select+A+Measure=total%5E_gross%5E_revenue"
     }
   }
