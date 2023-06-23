@@ -204,6 +204,10 @@ view: order_items {
     sql: ${sale_price} ;;
     filters: [item_is_returned: "No", item_is_cancelled: "No"]
     value_format_name: usd
+    link: {
+      label: "Customer Purchase Behavior Dashboard"
+      url: "https://looker.bytecode.io/dashboards/WAgveoGHyIJ18BJYJIassO"
+    }
   }
 
   measure: average_gross_revenue {
@@ -212,6 +216,10 @@ view: order_items {
     sql: ${sale_price} ;;
     filters: [item_is_returned: "No", item_is_cancelled: "No"]
     value_format_name: usd
+    link: {
+      label: "Customer Purchase Behavior Dashboard"
+      url: "https://looker.bytecode.io/dashboards/WAgveoGHyIJ18BJYJIassO"
+    }
   }
 
   measure: total_number_of_items {
@@ -274,6 +282,10 @@ view: order_items {
     sql: ${sale_price} ;;
     filters: [order_items.created_date: "yesterday", item_is_returned: "No", item_is_cancelled: "No"]
     value_format_name: usd
+    link: {
+      label: "Conversion Funnel Dashboard"
+      url: "https://looker.bytecode.io/dashboards/vqUMxGaXc4CLMupKp2fd9c"
+    }
   }
 
   measure: total_sale_price_prior_30_days {

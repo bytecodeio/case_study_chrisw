@@ -68,7 +68,7 @@ view: customer_order_facts {
     type: yesno
     sql: ${count_of_orders} > 1 ;;
     link: {
-      label: "Repeat Customer Behavior"
+      label: "Repeat Customer Behavior Dashboard"
       url: "https://looker.bytecode.io/dashboards/v7XysZcLFdfyf1Zax7V9ua"
     }
   }

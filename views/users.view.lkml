@@ -209,6 +209,10 @@ view: users {
     type: count_distinct
     sql: ${id} ;;
     filters: [created_date: "yesterday"]
+    link: {
+      label: "Conversion Funnel Dashboard"
+      url: "https://looker.bytecode.io/dashboards/vqUMxGaXc4CLMupKp2fd9c"
+    }
   }
 
   measure: count_of_new_users_prior_12_months {

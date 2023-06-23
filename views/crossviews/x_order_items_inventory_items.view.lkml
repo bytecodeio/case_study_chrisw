@@ -46,6 +46,10 @@ view: x_order_items_inventory_items {
     view_label: "Order Items"
     value_format_name: usd
     sql_distinct_key: ${order_items.id} ;;
+    link: {
+      label: "Conversion Funnel Dashboard"
+      url: "https://looker.bytecode.io/dashboards/vqUMxGaXc4CLMupKp2fd9c"
+    }
   }
 
   measure: total_gross_margin_amount_prior_12_months {
