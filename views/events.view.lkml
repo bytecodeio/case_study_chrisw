@@ -120,7 +120,12 @@ view: events {
   }
 
   measure: website_visits {
+    label: "Website Visits"
     type: count_distinct
     sql: ${session_id} ;;
+    link: {
+      label: "Website Usage Dashboard"
+      url: "https://looker.bytecode.io/dashboards/C3Ou0XHYL6WOPz4NEZmZjB"
+  }
   }
 }

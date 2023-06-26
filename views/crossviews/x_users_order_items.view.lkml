@@ -26,12 +26,18 @@ view: x_users_order_items {
   }
 
   measure: total_number_of_customers {
+    label: "Customers"
     type: count_distinct
     description: "The total number of unique customers"
     sql: ${customers.id} ;;
     sql_distinct_key: ${customers.id} ;;
     filters: [order_items.order_id: "> 0"]
     view_label: "Customers"
+    value_format_name: decimal_0
+    link: {
+      label: "Customer Purchase Behavior Dashboard"
+      url: "https://looker.bytecode.io/dashboards/WAgveoGHyIJ18BJYJIassO"
+    }
   }
 
   measure: count_of_customers_completed_and_shipped {
@@ -51,12 +57,23 @@ view: x_users_order_items {
     value_format_name: percent_2
   }
 
-  measure: user_signup_conversion_rate {
+  measure: customer_conversion_rate {
     type: number
     description: "The percentage of users that become customers."
     sql: 1.0 * ${total_number_of_customers} / NULLIF(${customers.count_of_users},0);;
     view_label: "Customers"
-    value_format_name: percent_2
+    value_format_name: percent_0
+    link: {
+      label: "Customer Purchase Behavior Dashboard"
+      url: "https://looker.bytecode.io/dashboards/WAgveoGHyIJ18BJYJIassO"
+    }
+  }
+
+  measure: average_items_per_customer {
+    type: number
+    sql: ${order_items.total_number_of_items} / NULLIF(${total_number_of_customers},0) ;;
+    view_label: "Customers"
+    value_format_name: decimal_2
   }
 
   ##################################

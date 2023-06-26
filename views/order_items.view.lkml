@@ -158,6 +158,21 @@ view: order_items {
     sql: MIN(${order_items.created_date}) ;;
   }
 
+  # dimension_group: between_signup_and_first_order {
+  #   type: duration
+  #   sql_start: ${customers.created_date} ;;
+  #   sql_end: ${first_order_date} ;;
+  #   intervals: [day]
+  # }
+
+  # measure: average_days_between_signup_and_first_order {
+  #   view_label: "Customer"
+  #   description: "The average number of days between a customer's orders."
+  #   type: average_distinct
+  #   sql: ${days_between_signup_and_first_order} ;;
+  #   # sql_distinct_key: ${order_id} ;;
+  # }
+
 
   measure: item_return_rate {
     type: number
@@ -189,6 +204,22 @@ view: order_items {
     sql: ${sale_price} ;;
     filters: [item_is_returned: "No", item_is_cancelled: "No"]
     value_format_name: usd
+    link: {
+      label: "Customer Purchase Behavior Dashboard"
+      url: "https://looker.bytecode.io/dashboards/WAgveoGHyIJ18BJYJIassO"
+    }
+  }
+
+  measure: average_gross_revenue {
+    type: average
+    description: "Sum of sale price for order items with a status of complete or shipped."
+    sql: ${sale_price} ;;
+    filters: [item_is_returned: "No", item_is_cancelled: "No"]
+    value_format_name: usd
+    link: {
+      label: "Customer Purchase Behavior Dashboard"
+      url: "https://looker.bytecode.io/dashboards/WAgveoGHyIJ18BJYJIassO"
+    }
   }
 
   measure: total_number_of_items {
@@ -251,6 +282,10 @@ view: order_items {
     sql: ${sale_price} ;;
     filters: [order_items.created_date: "yesterday", item_is_returned: "No", item_is_cancelled: "No"]
     value_format_name: usd
+    link: {
+      label: "Conversion Funnel Dashboard"
+      url: "https://looker.bytecode.io/dashboards/vqUMxGaXc4CLMupKp2fd9c"
+    }
   }
 
   measure: total_sale_price_prior_30_days {

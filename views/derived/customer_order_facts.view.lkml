@@ -39,6 +39,7 @@ view: customer_order_facts {
   }
 
   dimension: first_order_date {
+    type: date
     view_label: "Customers"
   }
 
@@ -66,6 +67,10 @@ view: customer_order_facts {
     view_label: "Customers"
     type: yesno
     sql: ${count_of_orders} > 1 ;;
+    link: {
+      label: "Repeat Customer Behavior Dashboard"
+      url: "https://looker.bytecode.io/dashboards/v7XysZcLFdfyf1Zax7V9ua"
+    }
   }
 
   dimension: is_all_customers {
@@ -179,11 +184,29 @@ view: customer_order_facts {
   }
 
   measure: count_of_repeat_customers {
+    label: "Repeat Customers"
     description: "The number of customers with more than one order in their lifetimes."
     view_label: "Customers"
     type: count_distinct
     sql: ${user_id} ;;
     filters: [is_repeat_customer: "Yes"]
+    link: {
+      label: "Repeat Customer Behavior Dashboard"
+      url: "https://looker.bytecode.io/dashboards/v7XysZcLFdfyf1Zax7V9ua"
+    }
+  }
+
+  measure: repeat_customer_conversion_rate {
+    label: "Repeat Customer CR"
+    description: "The percentage of repeat customers / total number of customers."
+    view_label: "Customers"
+    type: number
+    sql: 1.0 * ${count_of_repeat_customers} / NULLIF(${x_users_order_items.total_number_of_customers},0) ;;
+    value_format_name: percent_0
+    link: {
+      label: "Repeat Customer Behavior Dashboard"
+      url: "https://looker.bytecode.io/dashboards/v7XysZcLFdfyf1Zax7V9ua"
+    }
   }
 
   measure: repeat_purchase_rate {

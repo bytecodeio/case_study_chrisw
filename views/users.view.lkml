@@ -184,8 +184,13 @@ view: users {
   }
 
   measure: count_of_users {
+    label: "Users"
     type: count_distinct
     sql: ${id} ;;
+    link: {
+      label: "New User Signup Dashboard"
+      url: "https://looker.bytecode.io/dashboards/PL4tqFSf5ini9lBvS835t8"
+    }
   }
 
   ##################################
@@ -204,6 +209,10 @@ view: users {
     type: count_distinct
     sql: ${id} ;;
     filters: [created_date: "yesterday"]
+    link: {
+      label: "Conversion Funnel Dashboard"
+      url: "https://looker.bytecode.io/dashboards/vqUMxGaXc4CLMupKp2fd9c"
+    }
   }
 
   measure: count_of_new_users_prior_12_months {

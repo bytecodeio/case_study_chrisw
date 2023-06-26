@@ -45,6 +45,10 @@ view: inventory_items {
       url: "https://www.facebook.com/{{ value }}"
       icon_url: "http://facebook.com/favicon.ico"
     }
+    link: {
+      label: "Brand & Product Comparison Dashboard"
+      url: "https://looker.bytecode.io/dashboards/bjGrNp9Wt53zCQbXRILK8D?Select+Brands+To+Compare={{ value }}&&Select+A+Product+Category=&Select+A+Measure=total%5E_gross%5E_revenue"
+    }
   }
 
   dimension: product_category {
@@ -115,5 +119,53 @@ view: inventory_items {
   ##################################
   ########### Hidden ###############
   ##################################
+
+  #### Peer Comparison Code ####
+  filter: brand_select {
+    suggest_dimension: product_brand
+  }
+
+  filter: product_category_select {
+    suggest_dimension: product_category
+  }
+
+  dimension: brand_comparitor {
+    type: string
+    sql:
+      CASE
+        WHEN {% condition brand_select %} ${product_brand} {% endcondition %}
+          THEN ${product_brand}
+        ELSE 'All Other Brands'
+      END
+    ;;
+    order_by_field: brand_select_order
+  }
+
+  dimension: product_category_comparitor {
+    type: string
+    sql:
+      CASE
+        WHEN {% condition product_category_select %} ${product_category} {% endcondition %}
+          THEN ${product_category}
+        ELSE 'All Other Categories'
+      END
+    ;;
+  }
+
+  dimension: brand_select_order {
+    hidden: yes
+    type: number
+    sql: CASE WHEN ${brand_comparitor} = 'All Other Brands' THEN 999999
+              ELSE 0
+              END ;;
+  }
+
+  dimension: product_category_select_order {
+    hidden: yes
+    type: number
+    sql: CASE WHEN ${product_category_comparitor} = 'All Other Categories' THEN 999999
+              ELSE 0
+              END ;;
+  }
 
 }

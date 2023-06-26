@@ -21,6 +21,7 @@ view: customer_order_sequence {
     view_label: "Customers"
     group_label: "Lifetime Order History"
     type: number
+    value_format_name: decimal_0
   }
   dimension: total_60_day_repurchased_orders {
     hidden: yes
