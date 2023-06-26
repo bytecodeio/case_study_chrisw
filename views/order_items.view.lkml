@@ -45,6 +45,11 @@ view: order_items {
     sql: ${TABLE}.id ;;
   }
 
+  dimension: item_id_ct {
+    type: number
+    sql: CASE WHEN ${id} IS NOT NULL THEN 1 ELSE 0 END ;;
+  }
+
   dimension: inventory_item_id {
     type: string
     sql: ${TABLE}.inventory_item_id ;;
@@ -248,6 +253,11 @@ view: order_items {
   measure: count_of_items {
     type: count_distinct
     sql: ${id} ;;
+  }
+
+  measure: average_count_of_items {
+    type: average
+    sql: ${item_id_ct} ;;
   }
 
   measure:  total_gross_revenue_prior_30_days {

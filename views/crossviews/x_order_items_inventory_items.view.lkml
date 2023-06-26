@@ -77,4 +77,14 @@ view: x_order_items_inventory_items {
     view_label: "Order Items"
     value_format_name: percent_2
   }
+
+  measure: brand_gross_revenue {
+    type: number
+    sql: 1.0 * ${order_items.total_gross_revenue} / NULLIF(${inventory_items.count_of_brands},0) ;;
+  }
+
+  measure: brand_items {
+    type: number
+    sql: 1.0 * ${order_items.total_number_of_items} / NULLIF(${inventory_items.count_of_brands},0) ;;
+  }
 }

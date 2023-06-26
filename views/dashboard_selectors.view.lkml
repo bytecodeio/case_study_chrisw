@@ -3,6 +3,7 @@ include: "/views/users.view.lkml"
 include: "/views/crossviews/x_order_items_inventory_items.view.lkml"
 include: "/views/crossviews/x_users_order_items.view.lkml"
 include: "/views/derived/customer_order_facts.view.lkml"
+include: "/views/derived/order_item_facts.view.lkml"
 view: dashboard_selectors {
 
   ##################################
@@ -64,8 +65,16 @@ view: dashboard_selectors {
       value: "count_of_items"
     }
     allowed_value: {
+      label: "Avg. Number Of Items"
+      value: "average_number_of_items"
+    }
+    allowed_value: {
       label: "Total Gross Revenue"
       value: "total_gross_revenue"
+    }
+    allowed_value: {
+      label: "Avg. Gross Revenue"
+      value: "average_gross_revenue"
     }
     allowed_value: {
       label: "Total Gross Margin"
@@ -86,14 +95,20 @@ view: dashboard_selectors {
       ${order_items.count_of_orders}
     {% elsif select_a_measure_primary._parameter_value == 'count_of_items' %}
       ${order_items.count_of_items}
+    {% elsif select_a_measure_primary._parameter_value == 'average_number_of_items' %}
+      ${order_items.average_count_of_items}
     {% elsif select_a_measure_primary._parameter_value == 'total_gross_revenue' %}
       ${order_items.total_gross_revenue}
+      {% elsif select_a_measure_primary._parameter_value == 'average_gross_revenue' %}
+      ${order_items.average_gross_revenue}
     {% else %}
       ${x_order_items_inventory_items.total_gross_margin_amount}
     {% endif %}
     ;;
     html:
     {% if select_a_measure_primary._parameter_value == "total_gross_revenue" %}
+      ${{ rendered_value }}
+    {% elsif select_a_measure_primary._parameter_value == "average_gross_revenue" %}
       ${{ rendered_value }}
     {% elsif select_a_measure_primary._parameter_value == "total_gross_margin_amount" %}
       ${{ rendered_value }}

@@ -2,6 +2,10 @@
 ########### Connection ###########
 ##################################
 connection: "looker_partner_demo"
+access_grant: sales_access {
+  user_attribute: case_study_department
+  allowed_values: [ "sales", "executive" ]
+}
 
 ##################################
 ########### Views ################
@@ -17,6 +21,9 @@ include: "/views/derived/customer_order_facts.view.lkml"
 include: "/views/derived/order_sequence.view.lkml"
 include: "/views/derived/customer_order_sequence.view.lkml"
 include: "/views/derived/order_facts.view.lkml"
+include: "/views/derived/product_facts.view.lkml"
+
+explore: product_facts {}
 
 
 ##################################
@@ -26,6 +33,7 @@ include: "/explores/customers.explore.lkml"
 include: "/explores/order_items.explore.lkml"
 include: "/views/pop.view.lkml"
 include: "/views/pop2.view.lkml"
+
 
 explore: pop2 {}
 

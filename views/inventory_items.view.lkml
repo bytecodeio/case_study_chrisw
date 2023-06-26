@@ -45,16 +45,20 @@ view: inventory_items {
       url: "https://www.facebook.com/{{ value }}"
       icon_url: "http://facebook.com/favicon.ico"
     }
-    link: {
-      label: "Brand & Product Comparison Dashboard"
-      url: "https://looker.bytecode.io/dashboards/bjGrNp9Wt53zCQbXRILK8D?Select+Brands+To+Compare={{ value }}&&Select+A+Product+Category=&Select+A+Measure=total%5E_gross%5E_revenue"
-    }
+    # link: {
+    #   label: "Brand & Product Comparison Dashboard"
+    #   url: "https://looker.bytecode.io/dashboards/bjGrNp9Wt53zCQbXRILK8D?Select+Brands+To+Compare={{ value }}&&Select+A+Product+Category=&Select+A+Measure=total%5E_gross%5E_revenue"
+    # }
   }
 
   dimension: product_category {
     type: string
     sql: ${TABLE}.product_category ;;
     drill_fields: [product_brand,product_name,product_id,product_sku]
+    # link: {
+    #   label: "Brand & Product Comparison Dashboard"
+    #   url: "https://looker.bytecode.io/dashboards/bjGrNp9Wt53zCQbXRILK8D?Select+Brands+To+Compare=&Product+Category={{ value }}&Select+A+Measure=total%5E_gross%5E_revenue"
+    # }
   }
 
   dimension: product_department {
@@ -127,6 +131,11 @@ view: inventory_items {
 
   filter: product_category_select {
     suggest_dimension: product_category
+  }
+
+  measure: count_of_brands {
+    type: count_distinct
+    sql: ${product_brand} ;;
   }
 
   dimension: brand_comparitor {

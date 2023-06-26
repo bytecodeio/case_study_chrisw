@@ -10,16 +10,25 @@ include: "/views/derived/customer_order_facts.view.lkml"
 include: "/views/derived/order_sequence.view.lkml"
 include: "/views/derived/customer_order_sequence.view.lkml"
 include: "/views/derived/order_facts.view.lkml"
+include: "/views/derived/order_item_facts.view.lkml"
 include: "/views/pop2.view.lkml"
 include: "/views/crossviews/x_order_items_pop2.view.lkml"
 include: "/views/crossviews/x_users_events.view.lkml"
+include: "/views/derived/product_facts.view.lkml"
+include: "/views/brand_dashboard_selectors.view.lkml"
 explore: customers {
+  required_access_grants: [sales_access]
   from: users
   join: dashboard_selectors {
     type: left_outer
     relationship: one_to_one
     sql:  ;;
   }
+  join: brand_dashboard_selectors {
+    type: left_outer
+    relationship: one_to_one
+    sql:  ;;
+}
   join: order_items {
     type: left_outer
     relationship: one_to_many
@@ -47,6 +56,11 @@ explore: customers {
     type: left_outer
     relationship: many_to_one
     sql_on: ${order_items.order_id} = ${order_facts.order_id} ;;
+  }
+  join: order_item_facts {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${order_items.id} = ${order_item_facts.id};;
   }
   join: customer_order_facts {
     type: left_outer
@@ -81,5 +95,9 @@ explore: customers {
   join: x_users_events {
     relationship: one_to_many
     sql:  ;;
+  }
+  join: product_facts {
+    relationship: one_to_one
+    sql_on: (${inventory_items.product_brand}=${product_facts.product_brand} AND ${inventory_items.product_category}=${product_facts.product_category} AND ${order_items.created_year} = ${product_facts.created_year}) ;;
   }
 }

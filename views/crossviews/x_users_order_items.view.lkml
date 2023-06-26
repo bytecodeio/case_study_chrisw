@@ -121,6 +121,18 @@ view: x_users_order_items {
     view_label: "Customers"
   }
 
+  measure: sales_per_user {
+    description: "Total sales divided by the total number of users"
+    sql:  1.0 * ${order_items.total_gross_revenue} / NULLIF(${customers.count_of_users},0);;
+    view_label: "Customers"
+  }
+
+  measure: sales_per_customer {
+    description: "Total sales divided by the total number of customers"
+    sql:  1.0 * ${order_items.total_gross_revenue} / NULLIF(${total_number_of_customers},0);;
+    view_label: "Customers"
+  }
+
   measure: total_number_of_customers_prior_30_days {
     hidden: yes
     type: count_distinct
