@@ -7,16 +7,18 @@ view: order_facts {
       column: count_of_items {}
     }
   }
+
+  dimension: count_of_items {
+    view_label: "Order"
+  }
+
+  dimension: created_raw {
+  }
+
   dimension: order_id {
     primary_key: yes
     description: ""
     type: number
-  }
-  dimension: created_raw {
-  }
-
-  dimension: count_of_items {
-    view_label: "Order"
   }
 
   measure: min_created_date {

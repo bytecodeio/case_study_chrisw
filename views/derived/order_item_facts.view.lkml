@@ -7,18 +7,22 @@ view: order_item_facts {
       column: product_brand { field: inventory_items.product_brand }
     }
   }
+
+  dimension: count_of_items {}
+
   dimension: id {
     primary_key: yes
     description: ""
     type: number
   }
-  dimension: product_category {
-    description: ""
-  }
+
   dimension: product_brand {
     description: ""
   }
-  dimension: count_of_items {}
+
+  dimension: product_category {
+    description: ""
+  }
 
   measure: average_count_of_items {
     type: average

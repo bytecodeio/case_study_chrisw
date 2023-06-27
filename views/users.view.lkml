@@ -5,26 +5,9 @@ view: users {
   # extends: [pop]
   # extends: [pop2]
 
-
-  ##################################
-  ############## PoP ###############
-  ##################################
-
-
-
-
-
   ##################################
   ########### Dimensions ###########
   ##################################
-
-  dimension: id {
-    group_label: "Contact Detail"
-    primary_key: yes
-    type: number
-    sql: ${TABLE}.id ;;
-  }
-
   dimension: age {
     group_label: "Demographics"
     type: number
@@ -71,14 +54,6 @@ view: users {
     sql: ${TABLE}.created_at ;;
   }
 
-  dimension_group: since_signup {
-    description: "Duration since a user's website signup."
-    type: duration
-    sql_start: ${created_raw};;
-    sql_end: CURRENT_TIMESTAMP();;
-    intervals: [day,week,month,year]
-  }
-
   dimension: email {
     group_label: "Contact Detail"
     type: string
@@ -102,6 +77,13 @@ view: users {
     group_label: "Demographics"
     type: string
     sql: ${TABLE}.gender ;;
+  }
+
+  dimension: id {
+    group_label: "Contact Detail"
+    primary_key: yes
+    type: number
+    sql: ${TABLE}.id ;;
   }
 
   dimension: is_new_user {
@@ -144,6 +126,14 @@ view: users {
     sql: ${TABLE}.postal_code ;;
   }
 
+  dimension_group: since_signup {
+    description: "Duration since a user's website signup."
+    type: duration
+    sql_start: ${created_raw};;
+    sql_end: CURRENT_TIMESTAMP();;
+    intervals: [day,week,month,year]
+  }
+
   dimension: state {
     group_label: "Shipping Location"
     type: string
@@ -163,18 +153,9 @@ view: users {
     # drill_fields: [age_group,gender]
   }
 
-
   ################################
   ########### Measures ###########
   ################################
-
-  measure: total_age {
-    label: "Total age of users"
-    group_label: "Age Measures"
-    group_item_label: "Total"
-    type: sum
-    sql: ${age} ;;
-  }
 
   measure: average_age {
     group_label: "Age Measures"
@@ -193,6 +174,14 @@ view: users {
     }
   }
 
+  measure: total_age {
+    label: "Total age of users"
+    group_label: "Age Measures"
+    group_item_label: "Total"
+    type: sum
+    sql: ${age} ;;
+  }
+
   ##################################
   ########### Hidden ###############
   ##################################
@@ -201,6 +190,13 @@ view: users {
     hidden: yes
     type: count_distinct
     sql: ${created_date} ;;
+    filters: [created_date: "last 12 months"]
+  }
+
+  measure: count_of_new_users_prior_12_months {
+    hidden: yes
+    type: count_distinct
+    sql: ${id} ;;
     filters: [created_date: "last 12 months"]
   }
 
@@ -213,13 +209,6 @@ view: users {
       label: "Conversion Funnel Dashboard"
       url: "https://looker.bytecode.io/dashboards/vqUMxGaXc4CLMupKp2fd9c"
     }
-  }
-
-  measure: count_of_new_users_prior_12_months {
-    hidden: yes
-    type: count_distinct
-    sql: ${id} ;;
-    filters: [created_date: "last 12 months"]
   }
 
   measure: count_of_users_mtd_cm {

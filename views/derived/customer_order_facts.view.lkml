@@ -43,14 +43,6 @@ view: customer_order_facts {
     view_label: "Customers"
   }
 
-  dimension_group: since_last_order {
-    view_label: "Customers"
-    type: duration
-    sql_start: ${last_order_date};;
-    sql_end: CURRENT_TIMESTAMP();;
-    intervals: [day,week,month,year]
-  }
-
   dimension: last_order_date {
     view_label: "Customers"
   }
@@ -109,6 +101,15 @@ view: customer_order_facts {
       else: "0 Orders"
     }
   }
+
+  dimension_group: since_last_order {
+    view_label: "Customers"
+    type: duration
+    sql_start: ${last_order_date};;
+    sql_end: CURRENT_TIMESTAMP();;
+    intervals: [day,week,month,year]
+  }
+
   dimension: total_lifetime_revenue_range {
     description: "The sum total revenue for a customer over their lifetime, groupped into ranges."
     view_label: "Customers"

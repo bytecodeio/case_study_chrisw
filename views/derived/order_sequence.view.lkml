@@ -16,14 +16,10 @@ view: order_sequence {
       }
     }
   }
+
   dimension: id  {
     hidden: yes
     type: number
-  }
-
-  dimension: minimum_order_date {
-    hidden: yes
-    type: date
   }
 
   dimension: is_first_purchase {
@@ -41,6 +37,11 @@ view: order_sequence {
     ELSE 0
     END
     ;;
+  }
+
+  dimension: minimum_order_date {
+    hidden: yes
+    type: date
   }
 
   dimension: order_date_lag {

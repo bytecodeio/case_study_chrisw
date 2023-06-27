@@ -7,7 +7,7 @@ view: pop2 {
  }
   dimension_group: date_array {
     type:time
-    datatype: date
+    #datatype: date
     timeframes: [
       raw,
       time,

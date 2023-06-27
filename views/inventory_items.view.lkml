@@ -2,9 +2,37 @@
 view: inventory_items {
   sql_table_name: `looker-partners.thelook.inventory_items` ;;
 
+  filter: brand_select {
+    suggest_dimension: product_brand
+  }
+
+  filter: product_category_select {
+    suggest_dimension: product_category
+  }
+
   ##################################
   ########### Dimensions ###########
   ##################################
+
+  dimension: brand_comparitor {
+    type: string
+    sql:
+      CASE
+        WHEN {% condition brand_select %} ${product_brand} {% endcondition %}
+          THEN ${product_brand}
+        ELSE 'All Other Brands'
+      END
+    ;;
+    order_by_field: brand_select_order
+  }
+
+  dimension: brand_select_order {
+    hidden: yes
+    type: number
+    sql: CASE WHEN ${brand_comparitor} = 'All Other Brands' THEN 999999
+              ELSE 0
+              END ;;
+  }
 
   dimension: cost {
     type: number
@@ -61,6 +89,25 @@ view: inventory_items {
     # }
   }
 
+  dimension: product_category_comparitor {
+    type: string
+    sql:
+      CASE
+        WHEN {% condition product_category_select %} ${product_category} {% endcondition %}
+          THEN ${product_category}
+        ELSE 'All Other Categories'
+      END
+    ;;
+  }
+
+  dimension: product_category_select_order {
+    hidden: yes
+    type: number
+    sql: CASE WHEN ${product_category_comparitor} = 'All Other Categories' THEN 999999
+              ELSE 0
+              END ;;
+  }
+
   dimension: product_department {
     type: string
     sql: ${TABLE}.product_department ;;
@@ -114,67 +161,15 @@ view: inventory_items {
     sql: ${cost} ;;
   }
 
-  measure: total_cost {
-    type: sum
-    sql: ${cost};;
-    value_format_name: usd
-  }
-
-  ##################################
-  ########### Hidden ###############
-  ##################################
-
-  #### Peer Comparison Code ####
-  filter: brand_select {
-    suggest_dimension: product_brand
-  }
-
-  filter: product_category_select {
-    suggest_dimension: product_category
-  }
-
   measure: count_of_brands {
     type: count_distinct
     sql: ${product_brand} ;;
   }
 
-  dimension: brand_comparitor {
-    type: string
-    sql:
-      CASE
-        WHEN {% condition brand_select %} ${product_brand} {% endcondition %}
-          THEN ${product_brand}
-        ELSE 'All Other Brands'
-      END
-    ;;
-    order_by_field: brand_select_order
-  }
-
-  dimension: product_category_comparitor {
-    type: string
-    sql:
-      CASE
-        WHEN {% condition product_category_select %} ${product_category} {% endcondition %}
-          THEN ${product_category}
-        ELSE 'All Other Categories'
-      END
-    ;;
-  }
-
-  dimension: brand_select_order {
-    hidden: yes
-    type: number
-    sql: CASE WHEN ${brand_comparitor} = 'All Other Brands' THEN 999999
-              ELSE 0
-              END ;;
-  }
-
-  dimension: product_category_select_order {
-    hidden: yes
-    type: number
-    sql: CASE WHEN ${product_category_comparitor} = 'All Other Categories' THEN 999999
-              ELSE 0
-              END ;;
+  measure: total_cost {
+    type: sum
+    sql: ${cost};;
+    value_format_name: usd
   }
 
 }

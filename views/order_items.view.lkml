@@ -3,9 +3,29 @@ view: order_items {
   drill_fields: [product_details*]
   sql_table_name: `looker-partners.thelook.order_items` ;;
   # extends: [pop]
+
+  set: product_details {
+    fields:
+    [
+      inventory_items.product_id,
+      inventory_items.product_name,
+      inventory_items.product_brand,
+      inventory_items.product_category,
+      inventory_items.product_department,
+      inventory_items.product_sku
+    ]
+  }
+
   ##################################
   ########### Dimensions ###########
   ##################################
+
+  # dimension_group: between_signup_and_first_order {
+  #   type: duration
+  #   sql_start: ${customers.created_date} ;;
+  #   sql_end: ${first_order_date} ;;
+  #   intervals: [day]
+  # }
 
   dimension_group: created {
     type: time
@@ -45,24 +65,24 @@ view: order_items {
     sql: ${TABLE}.id ;;
   }
 
-  dimension: item_id_ct {
-    type: number
-    sql: CASE WHEN ${id} IS NOT NULL THEN 1 ELSE 0 END ;;
-  }
-
   dimension: inventory_item_id {
     type: string
     sql: ${TABLE}.inventory_item_id ;;
   }
 
-  dimension: item_is_returned {
-    type: yesno
-    sql: ${TABLE}.returned_at IS NOT NULL ;;
+  dimension: item_id_ct {
+    type: number
+    sql: CASE WHEN ${id} IS NOT NULL THEN 1 ELSE 0 END ;;
   }
 
   dimension: item_is_cancelled {
     type: yesno
     sql: ${TABLE}.shipped_at IS NULL ;;
+  }
+
+  dimension: item_is_returned {
+    type: yesno
+    sql: ${TABLE}.returned_at IS NOT NULL ;;
   }
 
   dimension: order_id {
@@ -139,6 +159,26 @@ view: order_items {
   ########### Measures ###########
   ################################
 
+  # measure: average_days_between_signup_and_first_order {
+  #   view_label: "Customer"
+  #   description: "The average number of days between a customer's orders."
+  #   type: average_distinct
+  #   sql: ${days_between_signup_and_first_order} ;;
+  #   # sql_distinct_key: ${order_id} ;;
+  # }
+
+  measure: average_gross_revenue {
+    type: average
+    description: "Sum of sale price for order items with a status of complete or shipped."
+    sql: ${sale_price} ;;
+    filters: [item_is_returned: "No", item_is_cancelled: "No"]
+    value_format_name: usd
+    link: {
+      label: "Customer Purchase Behavior Dashboard"
+      url: "https://looker.bytecode.io/dashboards/WAgveoGHyIJ18BJYJIassO"
+    }
+  }
+
   measure: average_sale_price {
     type: average
     sql: ${sale_price} ;;
@@ -162,22 +202,6 @@ view: order_items {
     type: date
     sql: MIN(${order_items.created_date}) ;;
   }
-
-  # dimension_group: between_signup_and_first_order {
-  #   type: duration
-  #   sql_start: ${customers.created_date} ;;
-  #   sql_end: ${first_order_date} ;;
-  #   intervals: [day]
-  # }
-
-  # measure: average_days_between_signup_and_first_order {
-  #   view_label: "Customer"
-  #   description: "The average number of days between a customer's orders."
-  #   type: average_distinct
-  #   sql: ${days_between_signup_and_first_order} ;;
-  #   # sql_distinct_key: ${order_id} ;;
-  # }
-
 
   measure: item_return_rate {
     type: number
@@ -215,18 +239,6 @@ view: order_items {
     }
   }
 
-  measure: average_gross_revenue {
-    type: average
-    description: "Sum of sale price for order items with a status of complete or shipped."
-    sql: ${sale_price} ;;
-    filters: [item_is_returned: "No", item_is_cancelled: "No"]
-    value_format_name: usd
-    link: {
-      label: "Customer Purchase Behavior Dashboard"
-      url: "https://looker.bytecode.io/dashboards/WAgveoGHyIJ18BJYJIassO"
-    }
-  }
-
   measure: total_number_of_items {
     view_label: "Order"
     type: count_distinct
@@ -243,6 +255,11 @@ view: order_items {
   ########### Hidden ###############
   ##################################
 
+  measure: average_count_of_items {
+    type: average
+    sql: ${item_id_ct} ;;
+  }
+
   measure: average_daily_revenue_prior_12_months {
     hidden: yes
     type: number
@@ -255,12 +272,7 @@ view: order_items {
     sql: ${id} ;;
   }
 
-  measure: average_count_of_items {
-    type: average
-    sql: ${item_id_ct} ;;
-  }
-
-  measure:  total_gross_revenue_prior_30_days {
+  measure: total_gross_revenue_prior_30_days {
     hidden: yes
     type: sum
     description: "Sum of sale price for order items with a status of complete or shipped."
@@ -269,7 +281,7 @@ view: order_items {
     value_format_name: usd
   }
 
-  measure:  total_gross_revenue_prior_12_months {
+  measure: total_gross_revenue_prior_12_months {
     hidden: yes
     type: sum
     description: "Sum of sale price for order items with a status of complete or shipped."
@@ -319,18 +331,6 @@ view: order_items {
     type: count_distinct
     sql: ${created_day_of_year} ;;
     filters: [created_date: "12 months", item_is_returned: "No", item_is_cancelled: "No"]
-  }
-
-  set: product_details {
-    fields:
-    [
-      inventory_items.product_id,
-      inventory_items.product_name,
-      inventory_items.product_brand,
-      inventory_items.product_category,
-      inventory_items.product_department,
-      inventory_items.product_sku
-    ]
   }
 
 }

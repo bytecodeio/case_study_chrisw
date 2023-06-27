@@ -6,10 +6,6 @@ include: "/views/derived/customer_order_facts.view.lkml"
 include: "/views/derived/order_item_facts.view.lkml"
 view: dashboard_selectors {
 
-  ##################################
-  ########### Dimension ############
-  ##################################
-
   parameter: select_a_dimension {
     type: unquoted
     # default_value: "count_of_orders"
@@ -26,24 +22,6 @@ view: dashboard_selectors {
       value: "all_customers"
     }
   }
-
-  dimension: selected_dimension {
-    type: string
-    label_from_parameter: select_a_dimension
-    sql:
-    {% if select_a_dimension._parameter_value == 'repeat_customers' %}
-    ${customer_order_facts.is_repeat_customer}
-    {% elsif select_a_dimension._parameter_value == 'active_customers' %}
-    ${customer_order_facts.is_active_customer}
-    {% else %}
-    ${customer_order_facts.is_all_customers}
-    {% endif %}
-    ;;
-  }
-
-  ##################################
-  ######## Primary Measure #########
-  ##################################
 
   parameter: select_a_measure_primary {
     type: unquoted
@@ -82,6 +60,77 @@ view: dashboard_selectors {
     }
   }
 
+  parameter: select_a_measure_secondary {
+    type: unquoted
+    # default_value: "count_of_orders"
+    allowed_value: {
+      label: "Count Of Users"
+      value: "count_of_users"
+    }
+    allowed_value: {
+      label: "Total Number Of Customers"
+      value: "total_number_of_customers"
+    }
+    allowed_value: {
+      label: "Count Of Orders"
+      value: "count_of_orders"
+    }
+    allowed_value: {
+      label: "Total Gross Revenue"
+      value: "total_gross_revenue"
+    }
+    allowed_value: {
+      label: "Total Gross Margin"
+      value: "total_gross_margin_amount"
+    }
+  }
+
+  parameter: select_an_order_timeframe {
+    type: unquoted
+    # default_value: "week"
+    allowed_value: {
+      label: "Day"
+      value: "date"
+    }
+    allowed_value: {
+      label: "Week"
+      value: "week"
+    }
+    allowed_value: {
+      label: "Month"
+      value: "month"
+    }
+    allowed_value: {
+      label: "Year"
+      value: "year"
+    }
+  }
+
+  dimension: selected_dimension {
+    type: string
+    label_from_parameter: select_a_dimension
+    sql:
+    {% if select_a_dimension._parameter_value == 'repeat_customers' %}
+    ${customer_order_facts.is_repeat_customer}
+    {% elsif select_a_dimension._parameter_value == 'active_customers' %}
+    ${customer_order_facts.is_active_customer}
+    {% else %}
+    ${customer_order_facts.is_all_customers}
+    {% endif %}
+    ;;
+  }
+
+  dimension: selected_order_timeframe {
+    label_from_parameter: select_an_order_timeframe
+    sql:
+      {% if select_an_order_timeframe._parameter_value == "date" %} ${order_items.created_date}
+      {% elsif select_an_order_timeframe._parameter_value == "month" %} ${order_items.created_month}
+      {% elsif select_an_order_timeframe._parameter_value == "year" %} ${order_items.created_year}
+      {% else %} ${order_items.created_week}
+      {% endif %}
+      ;;
+  }
+
   measure: selected_measure_primary {
     type: number
     value_format: "#,##0"
@@ -116,35 +165,6 @@ view: dashboard_selectors {
       {{ rendered_value }}
     {% endif %}
     ;;
-    }
-
-  ##################################
-  ######## Secondary Measure #######
-  ##################################
-
-  parameter: select_a_measure_secondary {
-    type: unquoted
-    # default_value: "count_of_orders"
-    allowed_value: {
-      label: "Count Of Users"
-      value: "count_of_users"
-    }
-    allowed_value: {
-      label: "Total Number Of Customers"
-      value: "total_number_of_customers"
-    }
-    allowed_value: {
-      label: "Count Of Orders"
-      value: "count_of_orders"
-    }
-    allowed_value: {
-      label: "Total Gross Revenue"
-      value: "total_gross_revenue"
-    }
-    allowed_value: {
-      label: "Total Gross Margin"
-      value: "total_gross_margin_amount"
-    }
   }
 
   measure: selected_measure_secondary {
@@ -169,42 +189,6 @@ view: dashboard_selectors {
     ${{ rendered_value }}
     {% endif %}
     ;;
-    }
-
-  ##################################
-  ######### Order Timeframe ########
-  ##################################
-
-  parameter: select_an_order_timeframe {
-    type: unquoted
-    # default_value: "week"
-    allowed_value: {
-      label: "Day"
-      value: "date"
-    }
-    allowed_value: {
-      label: "Week"
-      value: "week"
-    }
-    allowed_value: {
-      label: "Month"
-      value: "month"
-    }
-    allowed_value: {
-      label: "Year"
-      value: "year"
-    }
-  }
-
-  dimension: selected_order_timeframe {
-    label_from_parameter: select_an_order_timeframe
-    sql:
-      {% if select_an_order_timeframe._parameter_value == "date" %} ${order_items.created_date}
-      {% elsif select_an_order_timeframe._parameter_value == "month" %} ${order_items.created_month}
-      {% elsif select_an_order_timeframe._parameter_value == "year" %} ${order_items.created_year}
-      {% else %} ${order_items.created_week}
-      {% endif %}
-      ;;
   }
 
 }

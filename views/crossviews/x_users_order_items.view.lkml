@@ -1,12 +1,11 @@
 view: x_users_order_items {
 
-  ##################################
-  ########### Dimensions ###########
-  ##################################
-
-  ##################################
-  ########### Measures #############
-  ##################################
+  measure: average_items_per_customer {
+    type: number
+    sql: ${order_items.total_number_of_items} / NULLIF(${total_number_of_customers},0) ;;
+    view_label: "Customers"
+    value_format_name: decimal_2
+  }
 
   measure: average_spend_per_customer {
     type: number
@@ -16,6 +15,27 @@ view: x_users_order_items {
     value_format_name: usd
   }
 
+  measure: count_of_customers_completed_and_shipped {
+    type: count_distinct
+    description: "The total number of unique customers"
+    sql: ${customers.id} ;;
+    sql_distinct_key: ${customers.id} ;;
+    filters: [order_items.order_id: "> 0", order_items.status: "Complete,Shipped"]
+    view_label: "Customers"
+  }
+
+  measure: customer_conversion_rate {
+    type: number
+    description: "The percentage of users that become customers."
+    sql: 1.0 * ${total_number_of_customers} / NULLIF(${customers.count_of_users},0);;
+    view_label: "Customers"
+    value_format_name: percent_0
+    link: {
+      label: "Customer Purchase Behavior Dashboard"
+      url: "https://looker.bytecode.io/dashboards/WAgveoGHyIJ18BJYJIassO"
+    }
+  }
+
   measure: number_of_customers_returning_items {
     type: count_distinct
     description: "The number of customers who have returned an item at some point."
@@ -23,6 +43,14 @@ view: x_users_order_items {
     sql_distinct_key: ${customers.id} ;;
     filters: [order_items.status: "Returned"]
     view_label: "Customers"
+  }
+
+  measure: percent_of_customers_with_returns {
+    type: number
+    description: "The percentage of customers who have returned an item at some point."
+    sql: 1.0 * ${number_of_customers_returning_items} / NULLIF(${total_number_of_customers},0);;
+    view_label: "Customers"
+    value_format_name: percent_2
   }
 
   measure: total_number_of_customers {
@@ -38,42 +66,6 @@ view: x_users_order_items {
       label: "Customer Purchase Behavior Dashboard"
       url: "https://looker.bytecode.io/dashboards/WAgveoGHyIJ18BJYJIassO"
     }
-  }
-
-  measure: count_of_customers_completed_and_shipped {
-    type: count_distinct
-    description: "The total number of unique customers"
-    sql: ${customers.id} ;;
-    sql_distinct_key: ${customers.id} ;;
-    filters: [order_items.order_id: "> 0", order_items.status: "Complete,Shipped"]
-    view_label: "Customers"
-  }
-
-  measure: percent_of_customers_with_returns {
-    type: number
-    description: "The percentage of customers who have returned an item at some point."
-    sql: 1.0 * ${number_of_customers_returning_items} / NULLIF(${total_number_of_customers},0);;
-    view_label: "Customers"
-    value_format_name: percent_2
-  }
-
-  measure: customer_conversion_rate {
-    type: number
-    description: "The percentage of users that become customers."
-    sql: 1.0 * ${total_number_of_customers} / NULLIF(${customers.count_of_users},0);;
-    view_label: "Customers"
-    value_format_name: percent_0
-    link: {
-      label: "Customer Purchase Behavior Dashboard"
-      url: "https://looker.bytecode.io/dashboards/WAgveoGHyIJ18BJYJIassO"
-    }
-  }
-
-  measure: average_items_per_customer {
-    type: number
-    sql: ${order_items.total_number_of_items} / NULLIF(${total_number_of_customers},0) ;;
-    view_label: "Customers"
-    value_format_name: decimal_2
   }
 
   ##################################
@@ -121,15 +113,15 @@ view: x_users_order_items {
     view_label: "Customers"
   }
 
-  measure: sales_per_user {
-    description: "Total sales divided by the total number of users"
-    sql:  1.0 * ${order_items.total_gross_revenue} / NULLIF(${customers.count_of_users},0);;
-    view_label: "Customers"
-  }
-
   measure: sales_per_customer {
     description: "Total sales divided by the total number of customers"
     sql:  1.0 * ${order_items.total_gross_revenue} / NULLIF(${total_number_of_customers},0);;
+    view_label: "Customers"
+  }
+
+  measure: sales_per_user {
+    description: "Total sales divided by the total number of users"
+    sql:  1.0 * ${order_items.total_gross_revenue} / NULLIF(${customers.count_of_users},0);;
     view_label: "Customers"
   }
 
