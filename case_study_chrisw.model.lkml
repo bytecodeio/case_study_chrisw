@@ -31,24 +31,7 @@ explore: product_facts {}
 ##################################
 include: "/explores/customers.explore.lkml"
 include: "/explores/order_items.explore.lkml"
-include: "/views/pop.view.lkml"
 include: "/views/pop2.view.lkml"
-
-
-explore: pop2 {}
-
-explore: pop {
-  label: "PoP Method 3: Custom choice of current and previous periods with parameters"
-  always_filter: {
-    filters: [current_date_range: "6 months", compare_to: "Year" ]
-  }
-  # join: users {
-  #   type: left_outer
-  #   sql_on: ${pop.user_id} = ${users.id} ;;
-  #   relationship: one_to_one
-  # }
-}
-
 
 named_value_format: usd_in_millions {
   value_format: "$0.000,,\" M\""

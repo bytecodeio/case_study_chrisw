@@ -1,8 +1,6 @@
-include: "/views/pop.view.lkml"
 view: order_items {
   drill_fields: [product_details*]
   sql_table_name: `looker-partners.thelook.order_items` ;;
-  # extends: [pop]
 
   set: product_details {
     fields:
