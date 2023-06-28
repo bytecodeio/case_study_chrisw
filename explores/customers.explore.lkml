@@ -18,10 +18,10 @@ include: "/views/derived/product_facts.view.lkml"
 include: "/views/brand_dashboard_selectors.view.lkml"
 explore: customers {
   # required_access_grants: [sales_access]
-  access_filter: {
-    field: country
-    user_attribute: case_study_country
-  }
+  # access_filter: {
+  #   field: country
+  #   user_attribute: case_study_country
+  # }
   from: users
   join: dashboard_selectors {
     type: left_outer
