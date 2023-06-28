@@ -11,8 +11,8 @@ include: "/views/derived/order_sequence.view.lkml"
 include: "/views/derived/customer_order_sequence.view.lkml"
 include: "/views/derived/order_facts.view.lkml"
 include: "/views/derived/order_item_facts.view.lkml"
-include: "/views/pop2.view.lkml"
-include: "/views/crossviews/x_order_items_pop2.view.lkml"
+include: "/views/pop.view.lkml"
+include: "/views/crossviews/x_order_items_pop.view.lkml"
 include: "/views/crossviews/x_users_events.view.lkml"
 include: "/views/derived/product_facts.view.lkml"
 include: "/views/brand_dashboard_selectors.view.lkml"
@@ -85,13 +85,13 @@ explore: customers {
     relationship: one_to_one
     sql:  ;;
   }
-  join: pop2 {
+  join: pop {
     type: full_outer
     relationship: many_to_one
     # use liquid to if statement for sql_on
-    sql_on: ${customers.created_date} = DATE(${pop2.date_array_date}) ;;
+    sql_on: ${customers.created_date} = DATE(${pop.date_array_date}) ;;
   }
-  join: x_order_items_pop2 {
+  join: x_order_items_pop {
     relationship: one_to_one
     sql:  ;;
   }

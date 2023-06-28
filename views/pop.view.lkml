@@ -1,5 +1,5 @@
 include: "/views/order_items.view.lkml"
-view: pop2 {
+view: pop {
   ### Create a calendar table or use a view to build a date field for the view ###
   derived_table: {
     sql: SELECT date_array FROM UNNEST(GENERATE_DATE_ARRAY('2016-10-05', CURRENT_DATE(),

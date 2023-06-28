@@ -22,6 +22,7 @@ include: "/views/derived/order_sequence.view.lkml"
 include: "/views/derived/customer_order_sequence.view.lkml"
 include: "/views/derived/order_facts.view.lkml"
 include: "/views/derived/product_facts.view.lkml"
+include: "/views/derived/order_item_facts.view.lkml"
 
 explore: product_facts {}
 
@@ -31,7 +32,7 @@ explore: product_facts {}
 ##################################
 include: "/explores/customers.explore.lkml"
 include: "/explores/order_items.explore.lkml"
-include: "/views/pop2.view.lkml"
+include: "/views/pop.view.lkml"
 
 named_value_format: usd_in_millions {
   value_format: "$0.000,,\" M\""

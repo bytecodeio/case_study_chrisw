@@ -1,9 +1,6 @@
-include: "/views/pop2.view.lkml"
 view: users {
   drill_fields: [user_detail*]
   sql_table_name: `looker-partners.thelook.users` ;;
-  # extends: [pop]
-  # extends: [pop2]
 
   ##################################
   ########### Dimensions ###########

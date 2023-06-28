@@ -1,4 +1,4 @@
-view: x_order_items_pop2 {
+view: x_order_items_pop {
   #Filtered measures
 
   measure: current_period_sales {
@@ -6,7 +6,7 @@ view: x_order_items_pop2 {
     type: sum
     sql: ${order_items.sale_price};;
     sql_distinct_key: ${order_items.id} ;;
-    filters: [pop2.period_filtered_measures: "this"]
+    filters: [pop.period_filtered_measures: "this"]
   }
 
   measure: previous_period_sales {
@@ -14,7 +14,7 @@ view: x_order_items_pop2 {
     type: sum
     sql: ${order_items.sale_price};;
     sql_distinct_key: ${order_items.id} ;;
-    filters: [pop2.period_filtered_measures: "last"]
+    filters: [pop.period_filtered_measures: "last"]
   }
 
   measure: sales_pop_change {
