@@ -24,7 +24,9 @@ include: "/views/derived/order_facts.view.lkml"
 include: "/views/derived/product_facts.view.lkml"
 include: "/views/derived/order_item_facts.view.lkml"
 
+
 explore: product_facts {}
+
 
 
 ##################################
