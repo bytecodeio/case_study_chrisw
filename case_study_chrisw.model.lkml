@@ -23,6 +23,7 @@ include: "/views/derived/customer_order_sequence.view.lkml"
 include: "/views/derived/order_facts.view.lkml"
 include: "/views/derived/product_facts.view.lkml"
 include: "/views/derived/order_item_facts.view.lkml"
+include: "/data_tests.lkml"
 
 
 explore: product_facts {}
