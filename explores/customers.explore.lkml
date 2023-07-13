@@ -20,7 +20,7 @@ explore: customers {
   # required_access_grants: [sales_access]
   # access_filter: {
   #   field: country
-  #   user_attribute: case_study_country
+  #   user_attribute: case_study_chrisw_country
   # }
   from: users
   join: dashboard_selectors {

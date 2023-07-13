@@ -7,6 +7,11 @@ access_grant: sales_access {
   allowed_values: [ "sales", "executive" ]
 }
 
+datagroup: order_items_dg {
+  max_cache_age: "24 hours"
+  sql_trigger: SELECT MAX(order_id) FROM order_items ;;
+}
+
 ##################################
 ########### Views ################
 ##################################
@@ -24,11 +29,11 @@ include: "/views/derived/order_facts.view.lkml"
 include: "/views/derived/product_facts.view.lkml"
 include: "/views/derived/order_item_facts.view.lkml"
 include: "/data_tests.lkml"
+include: "/views/derived/dt_orders_by_day.view.lkml"
 
 
 explore: product_facts {}
-
-
+explore: dt_orders_by_day {}
 
 ##################################
 ########### Explores #############

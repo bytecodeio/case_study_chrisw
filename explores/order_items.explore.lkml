@@ -13,3 +13,17 @@ explore: order_items {
     sql:  ;;
 }
 }
+
+explore: +order_items {
+  aggregate_table: sales_yearly {
+    query: {
+      dimensions: [created_year]
+      measures: [total_sale_price]
+    }
+    materialization: {
+      datagroup_trigger: order_items_dg
+      increment_key: "created_year"
+      increment_offset: 7
+    }
+  }
+  }
