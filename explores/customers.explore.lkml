@@ -18,11 +18,15 @@ include: "/views/derived/product_facts.view.lkml"
 include: "/views/brand_dashboard_selectors.view.lkml"
 explore: customers {
   # required_access_grants: [sales_access]
-  # access_filter: {
-  #   field: country
-  #   user_attribute: case_study_chrisw_country
-  # }
+  access_filter: {
+    field: country
+    user_attribute: case_study_chrisw_country
+  }
   from: users
+  # conditionally_filter: {
+  #   filters: [country: "United States"]
+  #   unless: [city]
+  # }
   join: dashboard_selectors {
     type: left_outer
     relationship: one_to_one
