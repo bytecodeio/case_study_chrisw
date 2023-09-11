@@ -12,6 +12,10 @@ datagroup: order_items_dg {
   sql_trigger: SELECT MAX(order_id) FROM order_items ;;
 }
 
+datagroup: chris_w_case_study {
+  interval_trigger: "2 minutes"
+}
+
 ##################################
 ########### Views ################
 ##################################

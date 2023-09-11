@@ -3,7 +3,7 @@ include: "/views/inventory_items.view.lkml"
 include: "/views/crossviews/x_order_items_inventory_items.view.lkml"
 # include: “/views/derived/dt_monthly_sales.view.lkml”
 explore: order_items {
-  persist_with: order_items_dg
+  persist_with: chris_w_case_study
   join: inventory_items {
     type: left_outer
     relationship: one_to_one
