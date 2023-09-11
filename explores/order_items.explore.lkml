@@ -1,6 +1,7 @@
 include: "/views/order_items.view.lkml"
 include: "/views/inventory_items.view.lkml"
 include: "/views/crossviews/x_order_items_inventory_items.view.lkml"
+# include: “/views/derived/dt_monthly_sales.view.lkml”
 explore: order_items {
   join: inventory_items {
     type: left_outer
@@ -12,6 +13,7 @@ explore: order_items {
     relationship: one_to_one
     sql:  ;;
 }
+
 }
 
 explore: +order_items {

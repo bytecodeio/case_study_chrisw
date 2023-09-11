@@ -196,7 +196,7 @@ view: order_items {
   }
 
   measure: first_order_date {
-    hidden: yes
+    # hidden: yes
     type: date
     sql: MIN(${order_items.created_date}) ;;
   }
@@ -209,7 +209,7 @@ view: order_items {
   }
 
   measure: last_order_date {
-    hidden: yes
+    # hidden: yes
     type: date
     sql: MAX(${order_items.created_raw}) ;;
   }

@@ -17,9 +17,28 @@ view: users {
     type: tier
     tiers: [15,26,36,51,66]
     sql: ${age} ;;
+    # order_by_field: age_group_sort_order
     style: integer
     drill_fields: [gender,traffic_source,country,state,city]
+    # html:
+    # {% if users.age_group._rendered_value == '35 to 50' %}
+    # <p style="font-size:12px;color:blue;background-color:gray">{{rendered_value}}</p>
+    # {% else %}
+    # <p style="font-size:12px;color:red;background-color:gray">{{rendered_value}}</p>
+    # {% endif %}
+    # ;;
   }
+
+  # dimension: age_group_sort_order {
+  #   type: number
+  #   sql: CASE WHEN ${age_group} = '< 15.0' THEN 1
+  #             WHEN ${age_group} = '>= 15.0 and < 26.0' THEN 2
+  #             WHEN ${age_group} = '>= 26.0 and < 36.0' THEN 3
+  #             WHEN ${age_group} = '>= 36.0 and < 51.0' THEN 4
+  #             WHEN ${age_group} = '>= 51.0 and < 66.0' THEN 5
+  #             WHEN ${age_group} = '>= 66.0' THEN 6
+  #             END ;;
+  # }
 
   dimension: city {
     group_label: "Shipping Location"

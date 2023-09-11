@@ -106,6 +106,8 @@ explore: customers {
   }
   join: product_facts {
     relationship: one_to_one
-    sql_on: (${inventory_items.product_brand}=${product_facts.product_brand} AND ${inventory_items.product_category}=${product_facts.product_category} AND ${order_items.created_year} = ${product_facts.created_year}) ;;
+    sql_on:
+    (${inventory_items.product_brand}=${product_facts.product_brand} AND ${inventory_items.product_category}=${product_facts.product_category} AND ${order_items.created_year} = ${product_facts.created_year})
+    ;;
   }
 }
