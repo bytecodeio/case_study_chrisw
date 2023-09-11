@@ -8,7 +8,7 @@ access_grant: sales_access {
 }
 
 datagroup: order_items_dg {
-  max_cache_age: "24 hours"
+  max_cache_age: "1 minutes"
   sql_trigger: SELECT MAX(order_id) FROM order_items ;;
 }
 
