@@ -17,6 +17,7 @@ include: "/views/crossviews/x_users_events.view.lkml"
 include: "/views/derived/product_facts.view.lkml"
 include: "/views/brand_dashboard_selectors.view.lkml"
 explore: customers {
+  persist_with: chris_w_case_study
   # required_access_grants: [sales_access]
   access_filter: {
     field: country
