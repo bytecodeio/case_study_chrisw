@@ -13,7 +13,7 @@ datagroup: order_items_dg {
 }
 
 datagroup: chris_w_case_study {
-  max_cache_age: "12 hours"
+  max_cache_age: "6 minutes"
 }
 
 ##################################
