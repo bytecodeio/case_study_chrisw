@@ -11,6 +11,12 @@ view: users {
     sql: ${TABLE}.age ;;
   }
 
+  dimension: test_string {
+    label: "@{lastmonth_lastyear} {{year}} Year"
+    type: string
+    sql: '0' ;;
+  }
+
   dimension: age_group {
     group_label: "Demographics"
     group_item_label: "Age Range"

@@ -32,6 +32,7 @@ include: "/views/derived/customer_order_sequence.view.lkml"
 include: "/views/derived/order_facts.view.lkml"
 include: "/views/derived/product_facts.view.lkml"
 include: "/views/derived/order_item_facts.view.lkml"
+include: "/views/test.view.lkml"
 include: "/data_tests.lkml"
 include: "/views/derived/dt_orders_by_day.view.lkml"
 
@@ -52,3 +53,15 @@ named_value_format: usd_in_millions {
 named_value_format: phone_number {
   value_format: "(###) ###-####"
 }
+
+include: "/views/derived/time_table.view.lkml"
+explore: time_table{}
+
+include: "/views/ga4_data.view.lkml"
+
+
+include: "/views/sdt_csv_to_sql_example.view.lkml"
+explore: sdt_csv_to_sql_example{}
+
+include: "/views/derived/persisted_test_data_example.view.lkml"
+explore: persisted_test_data_example{}

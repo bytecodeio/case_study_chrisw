@@ -106,6 +106,7 @@ view: events {
 
   measure: website_visits {
     label: "Website Visits"
+    value_format: "0.000,\" K\""
     type: count_distinct
     sql: ${session_id} ;;
     link: {
